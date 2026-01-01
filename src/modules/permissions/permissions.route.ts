@@ -1,8 +1,6 @@
 /**
  * Permissions Route Module
  * @description Defines all routes for permission management including CRUD operations
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 
 import { router } from "@/application/route";

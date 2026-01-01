@@ -1,8 +1,6 @@
 /**
  * Auth Controller Module
  * @description Handles HTTP requests for authentication operations
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 
 import type { Request, Response } from "express";
@@ -17,8 +15,6 @@ import type { LoginInput, RefreshTokenInput, RegisterInput } from "@/modules/aut
  * @param {Request} req - Express request object with validated registration data in body
  * @param {Response} res - Express response object
  * @returns {Promise<void>} JSON response with tokens or error
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 export const register = async (req: Request, res: Response) => {
     try {
@@ -52,8 +48,6 @@ export const register = async (req: Request, res: Response) => {
  * @param {Request} req - Express request object with validated login credentials in body
  * @param {Response} res - Express response object
  * @returns {Promise<void>} JSON response with tokens or error
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 export const login = async (req: Request, res: Response) => {
     try {
@@ -85,8 +79,6 @@ export const login = async (req: Request, res: Response) => {
  * @param {Request} req - Express request object with refresh token in body
  * @param {Response} res - Express response object
  * @returns {Promise<void>} JSON response with new tokens or error
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 export const refreshToken = async (req: Request, res: Response) => {
     try {
@@ -120,8 +112,6 @@ export const refreshToken = async (req: Request, res: Response) => {
  * @param {Request} req - Express request object with user info from auth middleware
  * @param {Response} res - Express response object
  * @returns {Promise<void>} JSON response with user profile or error
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 export const getProfile = async (req: Request, res: Response) => {
     try {

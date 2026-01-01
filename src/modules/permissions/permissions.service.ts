@@ -1,8 +1,6 @@
 /**
  * Permissions Service Module
  * @description Business logic for permission management operations
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 
 import { prisma } from "@/application/database";

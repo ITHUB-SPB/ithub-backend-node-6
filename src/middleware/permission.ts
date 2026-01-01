@@ -1,8 +1,6 @@
 /**
  * Permission Middleware
  * @description Middleware for permission-based access control
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 
 import type { NextFunction, Request, Response } from "express";
@@ -17,8 +15,6 @@ import { FORBIDDEN, INTERNAL_SERVER_ERROR, UNAUTHORIZED } from "@/lib/http-statu
  * @throws {401} If user is not authenticated
  * @throws {403} If user doesn't have all required permissions
  * @throws {500} If database operation fails
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 export const hasPermission = (permissions: string | string[]) => {
     return async (req: Request, res: Response, next: NextFunction) => {

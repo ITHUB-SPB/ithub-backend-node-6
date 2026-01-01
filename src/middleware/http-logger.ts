@@ -1,7 +1,5 @@
 /**
  * Logger Middleware
- * @author Muhammad Haykal
- * @date 2025-12-27
  */
 
 import type { NextFunction, Request, Response } from "express";
@@ -11,8 +9,6 @@ import * as HttpStatusCodes from "@/lib/http-status-codes";
 /**
  * HTTP request logging middleware using Winston.
  * Logs all incoming HTTP requests with method, URL, status code, and response time.
- * @author Muhammad Haykal
- * @date 2025-12-26
  *
  * @param {Request} req - Express request object
  * @param {Response} res - Express response object

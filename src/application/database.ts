@@ -1,13 +1,9 @@
-/**
- * Database Module
- * @author Muhammad Haykal
- * @date 2025-12-27
- */
-
-import "dotenv/config";
+import { config } from "dotenv";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { logger } from "@/application/logging";
 import { PrismaClient } from "@/generated/prisma/client";
+
+config()
 
 const connectionString = `${process.env.DATABASE_URL}`;
 
@@ -50,13 +46,6 @@ prisma.$on("query", (e) => {
     logger.info(e);
 });
 
-/**
- * Connect to the database.
- * @author Muhammad Haykal
- * @date 2025-12-28
- *
- * @returns {Promise<void>}
- */
 const connectDb = async () => {
     try {
         logger.info({ tag: "DB", message: "Connecting to database..." });
@@ -68,13 +57,6 @@ const connectDb = async () => {
     }
 };
 
-/**
- * Disconnect from the database.
- * @author Muhammad Haykal
- * @date 2025-12-28
- *
- * @returns {Promise<void>}
- */
 const disconnectDb = async () => {
     await prisma.$disconnect();
 };

@@ -1,15 +1,11 @@
 /**
  * Serve Emoji Favicon Middleware
- * @author Muhammad Haykal
- * @date 2025-12-27
  */
 
 import type { NextFunction, Request, RequestHandler, Response } from "express";
 
 /**
  * Middleware to serve an emoji as favicon.
- * @author Muhammad Haykal
- * @date 2025-12-26
  *
  * @param {string} emoji
  *

@@ -1,7 +1,5 @@
 /**
  * Health Route Module
- * @author Muhammad Haykal
- * @date 2025-12-31
  */
 
 import { router } from "@/application/route";
@@ -16,8 +14,6 @@ const basePath = "/health";
 
 /**
  * GET /health - Health check endpoint
- * @author Muhammad Haykal
- * @date 2025-12-31
  */
 route.get("/", controller.index, {
     name: "health.check",

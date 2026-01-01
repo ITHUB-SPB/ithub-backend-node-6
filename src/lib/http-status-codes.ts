@@ -1,7 +1,5 @@
 /**
  * Exporting HTTP Status Codes as constants
- * @author Muhammad Haykal
- * @date 2025-12-27
  */
 
 // Generated file. Do not edit

@@ -1,8 +1,6 @@
 /**
  * Users Route Module
  * @description Route definitions for user management endpoints
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 
 import { router } from "@/application/route";
@@ -29,8 +27,6 @@ const basePath = "/users";
  * @route GET /users
  * @description Get list of users with pagination
  * @access Authenticated (Permission: users.read)
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 route.get("/", controller.index, {
     name: "users.index",
@@ -52,8 +48,6 @@ route.get("/", controller.index, {
  * @route GET /users/:id
  * @description Get user by ID
  * @access Authenticated (Permission: users.read)
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 route.get("/:id", controller.show, {
     name: "users.show",
@@ -76,8 +70,6 @@ route.get("/:id", controller.show, {
  * @route POST /users
  * @description Create a new user
  * @access Authenticated (Permission: users.create)
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 route.post("/", controller.store, {
     name: "users.store",
@@ -99,8 +91,6 @@ route.post("/", controller.store, {
  * @route PUT /users/:id
  * @description Update user by ID
  * @access Authenticated (Permission: users.update)
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 route.put("/:id", controller.update, {
     name: "users.update",
@@ -124,8 +114,6 @@ route.put("/:id", controller.update, {
  * @route DELETE /users/:id
  * @description Delete user by ID
  * @access Authenticated (Permission: users.delete)
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 route.delete("/:id", controller.destroy, {
     name: "users.destroy",

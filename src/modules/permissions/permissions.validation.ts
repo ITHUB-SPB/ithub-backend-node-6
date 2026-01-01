@@ -1,7 +1,5 @@
 /**
  * Permissions Validation Module
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 
 import z from "zod";

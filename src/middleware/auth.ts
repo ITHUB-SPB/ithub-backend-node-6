@@ -1,8 +1,6 @@
 /**
  * Authentication Middleware
  * @description Middleware for JWT token authentication and user authorization
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 
 import type { NextFunction, Request, Response } from "express";
@@ -17,8 +15,6 @@ import { verifyAccessToken } from "@/lib/jwt";
  * @param {Response} res - Express response object
  * @param {NextFunction} next - Express next middleware function
  * @returns {void} Calls next() if authenticated, otherwise sends 401 Unauthorized response
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 export const authenticate = (req: Request, res: Response, next: NextFunction) => {
     const authHeader = req.headers.authorization;
@@ -43,7 +39,6 @@ export const authenticate = (req: Request, res: Response, next: NextFunction) =>
         });
     }
 
-    // Attach user info to request
     req.user = {
         userId: payload.userId,
         email: payload.email,
@@ -59,8 +54,6 @@ export const authenticate = (req: Request, res: Response, next: NextFunction) =>
  * @param {Response} _res - Express response object (unused)
  * @param {NextFunction} next - Express next middleware function
  * @returns {void} Always calls next(), attaches user info if token is valid
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 export const optionalAuthenticate = (req: Request, _res: Response, next: NextFunction) => {
     const authHeader = req.headers.authorization;

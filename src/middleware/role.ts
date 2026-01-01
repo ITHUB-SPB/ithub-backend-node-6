@@ -1,8 +1,6 @@
 /**
  * Role Middleware
  * @description Middleware for role-based access control (RBAC)
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 
 import type { NextFunction, Request, Response } from "express";
@@ -17,8 +15,6 @@ import { FORBIDDEN, INTERNAL_SERVER_ERROR, UNAUTHORIZED } from "@/lib/http-statu
  * @throws {401} If user is not authenticated
  * @throws {403} If user doesn't have any of the required roles
  * @throws {500} If database operation fails
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 export const hasRole = (roles: string | string[]) => {
     return async (req: Request, res: Response, next: NextFunction) => {
@@ -33,7 +29,6 @@ export const hasRole = (roles: string | string[]) => {
         try {
             const allowedRoles = Array.isArray(roles) ? roles : [roles];
 
-            // Get user roles from database
             const userRoles = await prisma.userRole.findMany({
                 where: { user_id: req.user.userId },
                 include: {
@@ -47,7 +42,6 @@ export const hasRole = (roles: string | string[]) => {
 
             const userRoleNames = userRoles.map((ur) => ur.role.name);
 
-            // Check if user has any of the required roles
             const hasRequiredRole = allowedRoles.some((role) => userRoleNames.includes(role));
 
             if (!hasRequiredRole) {

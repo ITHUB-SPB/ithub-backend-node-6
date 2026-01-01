@@ -1,7 +1,5 @@
 /**
  * OpenAPI Generation Utilities
- * @author Muhammad Haykal
- * @date 2025-12-27
  */
 
 import type { ZodTypeAny } from "zod";
@@ -45,9 +43,7 @@ interface OpenAPIOperation {
 
 /**
  * Convert Zod schema to JSON Schema
- * @author Muhammad Haykal
- * @date 2025-12-31
- *
+ * 
  * @param {ZodType} zodSchema
  *
  * @returns {json}
@@ -58,9 +54,7 @@ export const convertToJsonSchema = (zodSchema: z.ZodType) => {
 
 /**
  * Generate OpenAPI paths from route metadata
- * @author Muhammad Haykal
- * @date 2025-12-31
- *
+ * 
  * @param {RouteMetadata[]} routes
  *
  * @returns {Record<string, Record<string, OpenAPIOperation>>}
@@ -184,9 +178,7 @@ export function generateOpenApiPaths(routes: RouteMetadata[]) {
 
 /**
  * Extract tag name from route path
- * @author Muhammad Haykal
- * @date 2025-12-31
- *
+ * 
  * @param {string} path
  *
  * @returns {string}
@@ -201,9 +193,7 @@ function extractTagFromPath(path: string): string {
 
 /**
  * Get response description based on status code
- * @author Muhammad Haykal
- * @date 2025-12-31
- *
+ * 
  * @param {string} statusCode
  * @returns {string}
  */

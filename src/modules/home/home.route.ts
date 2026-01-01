@@ -1,8 +1,6 @@
 /**
  * Home Route Module
  * @description Route definitions for home/landing page
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 
 import { router } from "@/application/route";
@@ -16,8 +14,6 @@ const basePath = "";
  * @route GET /
  * @description Landing page showcasing the Express starter template
  * @access Public
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 route.get("/", controller.index, {
     name: "home.index",

@@ -1,8 +1,6 @@
 /**
  * Permissions Controller Module
  * @description Handles HTTP requests for permission management operations
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 
 import type { Request, Response } from "express";
@@ -52,7 +50,7 @@ export const index = async (req: Request, res: Response) => {
 export const show = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
-        const permission = await permissionsService.getPermissionById(id);
+        const permission = await permissionsService.getPermissionById(id as string);
 
         res.status(httpStatusCodes.OK).json({
             success: true,
@@ -115,7 +113,7 @@ export const update = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
         const data = req.validated?.body as UpdatePermissionInput;
-        const permission = await permissionsService.updatePermission(id, data);
+        const permission = await permissionsService.updatePermission(id as string, data);
 
         res.status(httpStatusCodes.OK).json({
             success: true,
@@ -128,8 +126,8 @@ export const update = async (req: Request, res: Response) => {
             message === "Permission not found"
                 ? httpStatusCodes.NOT_FOUND
                 : message === "Permission with this name already exists"
-                ? httpStatusCodes.CONFLICT
-                : httpStatusCodes.INTERNAL_SERVER_ERROR;
+                    ? httpStatusCodes.CONFLICT
+                    : httpStatusCodes.INTERNAL_SERVER_ERROR;
 
         res.status(statusCode).json({
             success: false,
@@ -149,7 +147,7 @@ export const update = async (req: Request, res: Response) => {
 export const destroy = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
-        const permission = await permissionsService.deletePermission(id);
+        const permission = await permissionsService.deletePermission(id as string);
 
         res.status(httpStatusCodes.OK).json({
             success: true,

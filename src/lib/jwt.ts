@@ -1,7 +1,5 @@
 /**
  * JWT Utility Module
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 
 import jwt, { type SignOptions } from "jsonwebtoken";
@@ -21,8 +19,6 @@ export interface TokenPair {
 
 /**
  * Generate JWT access token
- * @author Muhammad Haykal
- * @date 2026-01-01
  *
  * @param {JWTPayload} payload
  * @returns {string} JWT token
@@ -36,8 +32,6 @@ export const generateAccessToken = (payload: JWTPayload): string => {
 
 /**
  * Generate JWT refresh token
- * @author Muhammad Haykal
- * @date 2026-01-01
  *
  * @param {JWTPayload} payload
  * @returns {string} JWT refresh token
@@ -51,8 +45,6 @@ export const generateRefreshToken = (payload: JWTPayload): string => {
 
 /**
  * Generate both access and refresh tokens
- * @author Muhammad Haykal
- * @date 2026-01-01
  *
  * @param {JWTPayload} payload
  * @returns {TokenPair} Token pair object
@@ -71,8 +63,6 @@ export const generateTokenPair = (payload: JWTPayload): TokenPair => {
 
 /**
  * Verify JWT access token
- * @author Muhammad Haykal
- * @date 2026-01-01
  *
  * @param {string} token
  * @returns {JWTPayload | null} Decoded payload or null if invalid
@@ -88,9 +78,7 @@ export const verifyAccessToken = (token: string): JWTPayload | null => {
 
 /**
  * Verify JWT refresh token
- * @author Muhammad Haykal
- * @date 2026-01-01
- *
+ * 
  * @param {string} token
  * @returns {JWTPayload | null} Decoded payload or null if invalid
  */

@@ -1,8 +1,6 @@
 /**
  * Users Service Module
  * @description Business logic for user management operations
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 
 import { prisma } from "@/application/database";
@@ -15,18 +13,14 @@ import type { GetAllUsersParams, PaginationMeta } from "@/modules/users/users.va
  * @param {GetAllUsersParams} params - Pagination parameters (page, per_page)
  * @returns {Promise<{data: Array, meta: PaginationMeta}>} Paginated users data with metadata
  * @throws {Error} If database operation fails
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 export const getAllUsers = async (params: GetAllUsersParams = {}) => {
     const page = params.page || 1;
     const per_page = params.per_page || 10;
     const skip = (page - 1) * per_page;
 
-    // Get total count
     const total = await prisma.user.count();
 
-    // Get paginated users
     const users = await prisma.user.findMany({
         skip,
         take: per_page,
@@ -43,7 +37,6 @@ export const getAllUsers = async (params: GetAllUsersParams = {}) => {
         },
     });
 
-    // Calculate pagination metadata
     const total_pages = Math.ceil(total / per_page);
     const has_next_page = page < total_pages;
     const has_prev_page = page > 1;
@@ -69,8 +62,6 @@ export const getAllUsers = async (params: GetAllUsersParams = {}) => {
  * @param {string} id - UUID of the user
  * @returns {Promise<Object|null>} User object or null if not found
  * @throws {Error} If database operation fails
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 export const findUserById = async (id: string) => {
     const user = await prisma.user.findUnique({
@@ -94,8 +85,6 @@ export const findUserById = async (id: string) => {
  * @param {string} email - Email address of the user
  * @returns {Promise<Object|null>} User object or null if not found
  * @throws {Error} If database operation fails
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 export const findUserByEmail = async (email: string) => {
     const user = await prisma.user.findUnique({
@@ -119,8 +108,6 @@ export const findUserByEmail = async (email: string) => {
  * @param {Prisma.UserCreateInput} data - User creation data
  * @returns {Promise<Object>} Created user object
  * @throws {Error} If database operation fails or validation error occurs
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 export const createUser = async (data: Prisma.UserCreateInput) => {
     const user = await prisma.user.create({
@@ -145,8 +132,6 @@ export const createUser = async (data: Prisma.UserCreateInput) => {
  * @param {Prisma.UserUpdateInput} data - Updated user data
  * @returns {Promise<Object>} Updated user object
  * @throws {Error} If user not found or database operation fails
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 export const updateUser = async (id: string, data: Prisma.UserUpdateInput) => {
     const user = await prisma.user.update({
@@ -171,8 +156,6 @@ export const updateUser = async (id: string, data: Prisma.UserUpdateInput) => {
  * @param {string} id - UUID of the user to delete
  * @returns {Promise<Object>} Deleted user object
  * @throws {Error} If user not found or database operation fails
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 export const deleteUser = async (id: string) => {
     const user = await prisma.user.delete({

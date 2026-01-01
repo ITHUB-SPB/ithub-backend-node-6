@@ -1,18 +1,7 @@
-/**
- * Utility functions for Express route management and introspection.
- * @author Muhammad Haykal
- * @date 2025-12-27
- */
-
 import type { Express } from "express";
 import type { ZodTypeAny } from "zod";
 import { logger } from "@/application/logging";
 
-/**
- * Route information interface.
- * @author Muhammad Haykal
- * @date 2025-12-26
- */
 export interface RouteInfo {
     name: string;
     method: string;
@@ -20,11 +9,6 @@ export interface RouteInfo {
     description?: string;
 }
 
-/**
- * Route metadata interface with full validation support.
- * @author Muhammad Haykal
- * @date 2025-12-31
- */
 export interface RouteMetadata {
     name: string;
     method: string;
@@ -51,9 +35,6 @@ export interface RouteMetadata {
     permission?: string | string[];
 }
 
-/**
- * Express internal types for router introspection
- */
 interface ExpressRoute {
     path: string;
     methods: Record<string, boolean>;
@@ -72,14 +53,6 @@ interface ExpressRouter {
     stack?: ExpressLayer[];
 }
 
-/**
- * Extract all routes from Express app.
- * @author Muhammad Haykal
- * @date 2025-12-26
- *
- * @param {Express} app - Express application
- * @returns {RouteInfo[]} Array of route information
- */
 export function extractRoutes(app: Express): RouteInfo[] {
     const routes: RouteInfo[] = [];
     const router = (app as Express & { _router?: ExpressRouter })._router;
@@ -87,7 +60,6 @@ export function extractRoutes(app: Express): RouteInfo[] {
 
     stack.forEach((middleware: ExpressLayer) => {
         if (middleware.route) {
-            // Single route
             const route = middleware.route;
             const methods = Object.keys(route.methods).map((m) => m.toUpperCase());
             methods.forEach((method) => {
@@ -98,7 +70,6 @@ export function extractRoutes(app: Express): RouteInfo[] {
                 });
             });
         } else if (middleware.name === "router" && middleware.handle?.stack) {
-            // Router middleware
             const routerPath = middleware.regexp
                 .toString()
                 .replace("/^", "")
@@ -125,13 +96,6 @@ export function extractRoutes(app: Express): RouteInfo[] {
     return routes;
 }
 
-/**
- * Display routes in a formatted table.
- * @author Muhammad Haykal
- * @date 2025-12-26
- *
- * @param {Express} app - Express application
- */
 export function displayRoutes(app: Express): void {
     const routes = extractRoutes(app);
 
@@ -140,7 +104,6 @@ export function displayRoutes(app: Express): void {
         return;
     }
 
-    // Sort by path and method
     const sortedRoutes = routes.sort((a, b) => {
         if (a.path === b.path) {
             return a.method.localeCompare(b.method);
@@ -148,7 +111,6 @@ export function displayRoutes(app: Express): void {
         return a.path.localeCompare(b.path);
     });
 
-    // Format for console.table
     const tableData = sortedRoutes.map((route) => ({
         Method: route.method,
         Path: route.path,
@@ -164,13 +126,6 @@ export function displayRoutes(app: Express): void {
  */
 const routeRegistry: Map<string, RouteMetadata> = new Map();
 
-/**
- * Register a route with full metadata.
- * @author Muhammad Haykal
- * @date 2025-12-31
- *
- * @param {RouteMetadata} metadata - Complete route metadata
- */
 export function registerRoute(metadata: RouteMetadata): void {
     const key = `${metadata.method.toUpperCase()}:${metadata.path}`;
     routeRegistry.set(key, {
@@ -179,22 +134,10 @@ export function registerRoute(metadata: RouteMetadata): void {
     });
 }
 
-/**
- * Get all registered routes with metadata.
- * @author Muhammad Haykal
- * @date 2025-12-31
- *
- * @returns {RouteMetadata[]} Array of route metadata
- */
 export function getRegisteredRoutes(): RouteMetadata[] {
     return Array.from(routeRegistry.values());
 }
 
-/**
- * Display registered routes with metadata.
- * @author Muhammad Haykal
- * @date 2025-12-31
- */
 export function displayRegisteredRoutes(): void {
     const routes = getRegisteredRoutes();
 
@@ -203,7 +146,6 @@ export function displayRegisteredRoutes(): void {
         return;
     }
 
-    // Sort by path and method
     const sortedRoutes = routes.sort((a, b) => {
         if (a.path === b.path) {
             return a.method.localeCompare(b.method);
@@ -211,7 +153,6 @@ export function displayRegisteredRoutes(): void {
         return a.path.localeCompare(b.path);
     });
 
-    // Format for console.table
     const tableData = sortedRoutes.map((route) => ({
         Name: route.name,
         Method: route.method,

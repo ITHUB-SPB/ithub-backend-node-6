@@ -1,8 +1,6 @@
 /**
  * Roles Route Module
  * @description Defines all routes for role management including CRUD operations and permission assignment
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 
 import { router } from "@/application/route";

@@ -1,7 +1,5 @@
 /**
  * Health Controller Module
- * @author Muhammad Haykal
- * @date 2025-12-31
  */
 
 import type { Request, Response } from "express";
@@ -11,8 +9,6 @@ import * as service from "@/modules/health/health.service";
 
 /**
  * Health Check Controller
- * @author Muhammad Haykal
- * @date 2025-12-31
  *
  * @param {Request} _req Express request object
  * @param {Response} res Express response object

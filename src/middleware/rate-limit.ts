@@ -1,7 +1,5 @@
 /**
  * Rate Limit Middleware
- * @author Muhammad Haykal
- * @date 2025-12-27
  */
 
 import type { NextFunction, Request, Response } from "express";
@@ -31,8 +29,6 @@ const defaultOptions: Required<RateLimitOptions> = {
 
 /**
  * Create rate limiter middleware
- * @author Muhammad Haykal
- * @date 2025-12-27
  *
  * @param {RateLimitOptions} options
  *

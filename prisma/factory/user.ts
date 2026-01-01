@@ -1,9 +1,3 @@
-/**
- * User Factory - Generate fake user data for testing and seeding
- * @author Muhammad Haykal
- * @date 2025-12-28
- */
-
 import { faker } from "@faker-js/faker";
 import bcrypt from "bcrypt";
 
@@ -15,9 +9,6 @@ export interface CreateUserData {
     remember_token?: string | null;
 }
 
-/**
- * Generate a single fake user
- */
 export async function generateUser(overrides?: Partial<CreateUserData>): Promise<CreateUserData> {
     const hashedPassword = await bcrypt.hash("password", 10);
 
@@ -31,9 +22,6 @@ export async function generateUser(overrides?: Partial<CreateUserData>): Promise
     };
 }
 
-/**
- * Generate multiple fake users
- */
 export async function generateUsers(count: number, overrides?: Partial<CreateUserData>): Promise<CreateUserData[]> {
     const users: CreateUserData[] = [];
 
@@ -44,9 +32,6 @@ export async function generateUsers(count: number, overrides?: Partial<CreateUse
     return users;
 }
 
-/**
- * Generate a verified user
- */
 export async function generateVerifiedUser(overrides?: Partial<CreateUserData>): Promise<CreateUserData> {
     return generateUser({
         email_verified_at: new Date(),
@@ -54,9 +39,6 @@ export async function generateVerifiedUser(overrides?: Partial<CreateUserData>):
     });
 }
 
-/**
- * Generate an unverified user
- */
 export async function generateUnverifiedUser(overrides?: Partial<CreateUserData>): Promise<CreateUserData> {
     return generateUser({
         email_verified_at: null,

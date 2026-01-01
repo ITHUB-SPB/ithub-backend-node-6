@@ -1,9 +1,3 @@
-/**
- * Exporting HTTP Status Phrases as constants
- * @author Muhammad Haykal
- * @date 2025-12-27
- */
-
 // Generated file. Do not edit
 // Phrases retrieved on Thu, 03 Oct 2024 12:05:14 GMT from https://raw.githubusercontent.com/prettymuchbryce/http-status-codes/refs/heads/master/codes.json
 /**

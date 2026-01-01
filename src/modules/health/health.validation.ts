@@ -1,7 +1,5 @@
 /**
  * Health Validation Module
- * @author Muhammad Haykal
- * @date 2025-12-31
  */
 
 import z from "zod";

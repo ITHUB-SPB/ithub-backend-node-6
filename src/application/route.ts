@@ -1,7 +1,5 @@
 /**
  * Routing Module
- * @author Muhammad Haykal
- * @date 2025-12-27
  */
 
 import fs from "node:fs";
@@ -58,8 +56,6 @@ const namedRoutes: { [key: string]: string } = {};
 
 /**
  * Ensure path start with '/'
- * @author Muhammad Haykal
- * @date 2025-12-27
  *
  * @param {string} path
  *
@@ -71,8 +67,6 @@ function ensureLeadingSlash(path: string): string {
 
 /**
  * Mount the routes to express application
- * @author Muhammad Haykal
- * @date 2025-12-27
  *
  * @param {Express} app
  * @param {string} file
@@ -92,8 +86,6 @@ function loadAndMount(app: Express, file: string, fallback: string): void {
 
 /**
  * Define route name
- * @author Muhammad Haykal
- * @date 2025-12-31
  *
  * @exports
  *
@@ -126,9 +118,6 @@ function defineRoute(name: string, routePath: string, path: string, method: stri
 
 /**
  * Get route URL by name
- * @author Muhammad Haykal
- * @date 2025-12-27
- *
  * @exports
  *
  * @param {string} name
@@ -169,8 +158,6 @@ function getRoute(name: string, params: Record<string, string | number> = {}, sa
 
 /**
  * Zod Validator Middleware
- * @author Muhammad Haykal
- * @date 2025-12-27
  *
  * @param {ZodValidation} validation
  *
@@ -225,8 +212,6 @@ function zodValidator(validation: ZodValidation): RequestHandler {
 
 /**
  * Apply middleware stack to route
- * @author Muhammad Haykal
- * @date 2025-12-27
  *
  * @param {RequestHandler} controller
  * @param {RouteOptions} options
@@ -264,9 +249,6 @@ function applyMiddlewareStack(controller: RequestHandler, options: RouteOptions)
 
 /**
  * Router helper.
- * @author Muhammad Haykal
- * @date 2025-12-27
- *
  * @exports
  *
  * @returns {object} Router object with HTTP method helpers
@@ -318,9 +300,6 @@ function router() {
 
 /**
  * Register Route Modules
- * @author Muhammad Haykal
- * @date 2025-12-27
- *
  * @exports
  *
  * @param {Express} app

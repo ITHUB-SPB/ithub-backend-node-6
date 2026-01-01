@@ -1,8 +1,6 @@
 /**
  * Roles Controller Module
  * @description Handles HTTP requests for role management operations
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 
 import type { Request, Response } from "express";
@@ -53,7 +51,7 @@ export const index = async (req: Request, res: Response) => {
 export const show = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
-        const role = await rolesService.getRoleById(id);
+        const role = await rolesService.getRoleById(id as string);
 
         res.status(httpStatusCodes.OK).json({
             success: true,
@@ -116,7 +114,7 @@ export const update = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
         const data = req.validated?.body as UpdateRoleInput;
-        const role = await rolesService.updateRole(id, data);
+        const role = await rolesService.updateRole(id as string, data);
 
         res.status(httpStatusCodes.OK).json({
             success: true,
@@ -129,8 +127,8 @@ export const update = async (req: Request, res: Response) => {
             message === "Role not found"
                 ? httpStatusCodes.NOT_FOUND
                 : message === "Role with this name already exists"
-                ? httpStatusCodes.CONFLICT
-                : httpStatusCodes.INTERNAL_SERVER_ERROR;
+                    ? httpStatusCodes.CONFLICT
+                    : httpStatusCodes.INTERNAL_SERVER_ERROR;
 
         res.status(statusCode).json({
             success: false,
@@ -150,7 +148,7 @@ export const update = async (req: Request, res: Response) => {
 export const destroy = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
-        const role = await rolesService.deleteRole(id);
+        const role = await rolesService.deleteRole(id as string);
 
         res.status(httpStatusCodes.OK).json({
             success: true,
@@ -181,7 +179,7 @@ export const assignPermissions = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
         const data = req.validated?.body as AssignPermissionsInput;
-        const role = await rolesService.assignPermissions(id, data);
+        const role = await rolesService.assignPermissions(id as string, data);
 
         res.status(httpStatusCodes.OK).json({
             success: true,

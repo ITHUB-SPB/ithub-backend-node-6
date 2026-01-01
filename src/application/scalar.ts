@@ -3,15 +3,12 @@ import type { Express } from "express";
 import env from "@/application/env";
 import { generateOpenApiPaths } from "@/lib/open-api";
 import { getRegisteredRoutes, registerRoute } from "@/lib/route-utils";
-import packageJSON from "../../package.json";
+import packageJSON from "../../package.json" with { type: "json" };
 
 const title = "Express Starter API Documentation";
 
 /**
  * Setup Scalar API documentation
- * @author Muhammad Haykal
- * @date 2025-12-31
- *
  * @param {Express} app Express application instance
  */
 export function setupScalarDocs(app: Express): void {
@@ -49,15 +46,6 @@ export function setupScalarDocs(app: Express): void {
             title,
             version: packageJSON.version,
             description: packageJSON.description,
-            contact: {
-                name: packageJSON.author.name,
-                url: packageJSON.author.url,
-                email: packageJSON.author.email,
-            },
-            license: {
-                name: "MIT",
-                url: "https://github.com/haykal-fe-verd/express-starter?tab=MIT-1-ov-file",
-            },
         },
         servers: [
             {

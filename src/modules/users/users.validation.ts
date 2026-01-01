@@ -1,8 +1,6 @@
 /**
  * Users Validation Module
  * @description Zod validation schemas for user management operations
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 
 import { z } from "zod";

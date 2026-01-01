@@ -1,9 +1,3 @@
-/**
- * Redis Module
- * @author Muhammad Haykal
- * @date 2025-12-27
- */
-
 import { createClient } from "redis";
 import env from "@/application/env";
 import { logger } from "@/application/logging";
@@ -12,13 +6,6 @@ export type RedisClient = ReturnType<typeof createClient>;
 
 let redisClient: RedisClient | null = null;
 
-/**
- * Initialize Redis client
- * @author Muhammad Haykal
- * @date 2025-12-27
- *
- * @returns {Promise<RedisClient>}
- */
 export async function initRedis(): Promise<RedisClient> {
     if (redisClient) {
         return redisClient;
@@ -53,13 +40,6 @@ export async function initRedis(): Promise<RedisClient> {
     return redisClient;
 }
 
-/**
- * Get Redis client instance
- * @author Muhammad Haykal
- * @date 2025-12-27
- *
- * @returns {RedisClient}
- */
 export function getRedis(): RedisClient {
     if (!redisClient) {
         throw new Error("Redis client not initialized. Call initRedis() first.");
@@ -67,13 +47,6 @@ export function getRedis(): RedisClient {
     return redisClient;
 }
 
-/**
- * Close Redis connection
- * @author Muhammad Haykal
- * @date 2025-12-27
- *
- * @returns {Promise<void>}
- */
 export async function closeRedis(): Promise<void> {
     if (redisClient) {
         await redisClient.quit();
@@ -82,22 +55,13 @@ export async function closeRedis(): Promise<void> {
     }
 }
 
-/**
- * Cache helper functions
- */
 export const cache = {
-    /**
-     * Get value from cache
-     */
     async get<T>(key: string): Promise<T | null> {
         const client = getRedis();
         const value = await client.get(key);
         return value ? JSON.parse(value) : null;
     },
 
-    /**
-     * Set value to cache
-     */
     async set(key: string, value: unknown, ttlSeconds?: number): Promise<void> {
         const client = getRedis();
         const serialized = JSON.stringify(value);
@@ -108,17 +72,11 @@ export const cache = {
         }
     },
 
-    /**
-     * Delete key from cache
-     */
     async del(key: string): Promise<void> {
         const client = getRedis();
         await client.del(key);
     },
 
-    /**
-     * Check if key exists
-     */
     async exists(key: string): Promise<boolean> {
         const client = getRedis();
         const result = await client.exists(key);

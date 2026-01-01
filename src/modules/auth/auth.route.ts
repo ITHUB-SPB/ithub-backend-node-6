@@ -1,8 +1,6 @@
 /**
  * Auth Route Module
  * @description Route definitions for authentication endpoints
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 
 import z from "zod";
@@ -46,8 +44,6 @@ const errorResponseSchema = z.object({
  * @route POST /auth/register
  * @description Register a new user account
  * @access Public
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 route.post("/register", controller.register, {
     name: "auth.register",
@@ -69,8 +65,6 @@ route.post("/register", controller.register, {
  * @route POST /auth/login
  * @description Login with email and password
  * @access Public
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 route.post("/login", controller.login, {
     name: "auth.login",
@@ -92,8 +86,6 @@ route.post("/login", controller.login, {
  * @route POST /auth/refresh
  * @description Refresh access token using refresh token
  * @access Public
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 route.post("/refresh", controller.refreshToken, {
     name: "auth.refresh",
@@ -115,8 +107,6 @@ route.post("/refresh", controller.refreshToken, {
  * @route GET /auth/profile
  * @description Get authenticated user profile
  * @access Authenticated
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 route.get("/profile", controller.getProfile, {
     name: "auth.profile",

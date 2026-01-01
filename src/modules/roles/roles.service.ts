@@ -1,8 +1,6 @@
 /**
  * Roles Service Module
  * @description Business logic for role management operations
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 
 import { prisma } from "@/application/database";

@@ -1,16 +1,11 @@
 /**
  * Health Service Module
- * @author Muhammad Haykal
- * @date 2025-12-31
  */
 
 import type { HealthData } from "@/modules/health/health.validation";
 
 /**
  * Health Index
- * @author Muhammad Haykal
- * @date 2025-12-30
- *
  * @returns {Promise<HealthData>}
  */
 export const healthIndex = async (): Promise<HealthData> => {

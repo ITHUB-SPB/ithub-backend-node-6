@@ -1,9 +1,3 @@
-/**
- * Logging Module
- * @author Muhammad Haykal
- * @date 2025-12-27
- */
-
 import fs from "node:fs";
 import path from "node:path";
 import chalk from "chalk";
@@ -78,15 +72,6 @@ const logger = createLogger({
     transports: [errorTransport, appTransport, consoleTransport],
 });
 
-/**
- * Masks sensitive information from an object.
- * @author Muhammad Haykal
- * @date 2025-12-27
- *
- * @param {Record<string, unknown>} obj
- *
- * @returns {Record<string, unknown>}
- */
 const maskSensitive = (obj: Record<string, unknown>) => {
     const clone: Record<string, unknown> = {};
     for (const k of Object.keys(obj || {})) {

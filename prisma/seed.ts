@@ -1,9 +1,3 @@
-/**
- * Seed script to populate the database with initial data.
- * @author Muhammad Haykal
- * @date 2025-12-28
- */
-
 import { prisma } from "../src/application/database";
 import { generateUsers } from "./factory/user";
 

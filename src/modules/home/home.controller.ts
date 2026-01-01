@@ -1,8 +1,6 @@
 /**
  * Home Controller Module
  * @description Handles HTTP requests for home/landing page
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 
 import type { Request, Response } from "express";
@@ -13,8 +11,6 @@ import type { Request, Response } from "express";
  * @param {Request} _req - Express request object (unused)
  * @param {Response} res - Express response object
  * @returns {void} HTML response with landing page
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 export const index = (_req: Request, res: Response) => {
     const html = `

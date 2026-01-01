@@ -1,7 +1,5 @@
 /**
  * Error Handling Middleware
- * @author Muhammad Haykal
- * @date 2025-12-27
  */
 
 import type { ErrorRequestHandler, NextFunction, Request, Response } from "express";
@@ -10,8 +8,6 @@ import { INTERNAL_SERVER_ERROR, OK } from "@/lib/http-status-codes";
 
 /**
  * Error handling middleware for Express.
- * @author Muhammad Haykal
- * @date 2025-12-26
  *
  * @param {Error} err - Error object
  * @param {Request} req - Express request object

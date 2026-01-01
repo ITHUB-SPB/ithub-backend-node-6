@@ -1,8 +1,6 @@
 /**
  * Users Controller Module
  * @description Handles HTTP requests for user management operations with caching
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 
 import type { Request, Response } from "express";
@@ -21,8 +19,6 @@ import type { CreateUserBody, ListQuery, UpdateUserBody, UserIdParam } from "@/m
  * @param {Request} req - Express request object with validated query params
  * @param {Response} res - Express response object
  * @returns {Promise<void>} JSON response with users data and pagination metadata
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 export async function index(req: Request, res: Response) {
     try {
@@ -63,8 +59,6 @@ export async function index(req: Request, res: Response) {
  * @param {Request} req - Express request object with user ID in params
  * @param {Response} res - Express response object
  * @returns {Promise<void>} JSON response with user data or error
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 export async function show(req: Request, res: Response) {
     try {
@@ -103,8 +97,6 @@ export async function show(req: Request, res: Response) {
  * @param {Request} req - Express request object with validated user data in body
  * @param {Response} res - Express response object
  * @returns {Promise<void>} JSON response with created user data or error
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 export async function store(req: Request, res: Response) {
     try {
@@ -145,8 +137,6 @@ export async function store(req: Request, res: Response) {
  * @param {Request} req - Express request object with user ID in params and validated update data in body
  * @param {Response} res - Express response object
  * @returns {Promise<void>} JSON response with updated user data or error
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 export async function update(req: Request, res: Response) {
     try {
@@ -206,8 +196,6 @@ export async function update(req: Request, res: Response) {
  * @param {Request} req - Express request object with user ID in params
  * @param {Response} res - Express response object
  * @returns {Promise<void>} JSON response with deleted user data or error
- * @author Muhammad Haykal
- * @date 2026-01-01
  */
 export async function destroy(req: Request, res: Response) {
     try {
