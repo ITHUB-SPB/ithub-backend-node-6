@@ -5,9 +5,9 @@
 
 import { prisma } from "@/application/database";
 import type {
-    CreatePermissionInput,
-    GetAllPermissionsParams,
-    UpdatePermissionInput,
+	CreatePermissionInput,
+	GetAllPermissionsParams,
+	UpdatePermissionInput,
 } from "@/modules/permissions/permissions.validation";
 
 /**
@@ -17,46 +17,48 @@ import type {
  * @returns {Promise<{data: Array, meta: Object}>} Paginated permissions data with metadata
  * @throws {Error} If database operation fails
  */
-export const getAllPermissions = async (params: GetAllPermissionsParams = { page: 1, per_page: 10 }) => {
-    const page = params.page || 1;
-    const per_page = params.per_page || 10;
-    const skip = (page - 1) * per_page;
+export const getAllPermissions = async (
+	params: GetAllPermissionsParams = { page: 1, per_page: 10 },
+) => {
+	const page = params.page || 1;
+	const per_page = params.per_page || 10;
+	const skip = (page - 1) * per_page;
 
-    const total = await prisma.permission.count();
+	const total = await prisma.permission.count();
 
-    const permissions = await prisma.permission.findMany({
-        skip,
-        take: per_page,
-        orderBy: { created_at: "desc" },
-        include: {
-            _count: {
-                select: {
-                    role_permissions: true,
-                },
-            },
-        },
-    });
+	const permissions = await prisma.permission.findMany({
+		skip,
+		take: per_page,
+		orderBy: { created_at: "desc" },
+		include: {
+			_count: {
+				select: {
+					role_permissions: true,
+				},
+			},
+		},
+	});
 
-    const total_pages = Math.ceil(total / per_page);
+	const total_pages = Math.ceil(total / per_page);
 
-    return {
-        data: permissions.map((permission) => ({
-            id: permission.id,
-            name: permission.name,
-            description: permission.description,
-            roles_count: permission._count.role_permissions,
-            created_at: permission.created_at,
-            updated_at: permission.updated_at,
-        })),
-        meta: {
-            page,
-            per_page,
-            total,
-            total_pages,
-            has_next_page: page < total_pages,
-            has_prev_page: page > 1,
-        },
-    };
+	return {
+		data: permissions.map((permission) => ({
+			id: permission.id,
+			name: permission.name,
+			description: permission.description,
+			roles_count: permission._count.role_permissions,
+			created_at: permission.created_at,
+			updated_at: permission.updated_at,
+		})),
+		meta: {
+			page,
+			per_page,
+			total,
+			total_pages,
+			has_next_page: page < total_pages,
+			has_prev_page: page > 1,
+		},
+	};
 };
 
 /**
@@ -67,35 +69,35 @@ export const getAllPermissions = async (params: GetAllPermissionsParams = { page
  * @throws {Error} If permission not found or database operation fails
  */
 export const getPermissionById = async (id: string) => {
-    const permission = await prisma.permission.findUnique({
-        where: { id },
-        include: {
-            role_permissions: {
-                include: {
-                    role: {
-                        select: {
-                            id: true,
-                            name: true,
-                            description: true,
-                        },
-                    },
-                },
-            },
-        },
-    });
+	const permission = await prisma.permission.findUnique({
+		where: { id },
+		include: {
+			role_permissions: {
+				include: {
+					role: {
+						select: {
+							id: true,
+							name: true,
+							description: true,
+						},
+					},
+				},
+			},
+		},
+	});
 
-    if (!permission) {
-        throw new Error("Permission not found");
-    }
+	if (!permission) {
+		throw new Error("Permission not found");
+	}
 
-    return {
-        id: permission.id,
-        name: permission.name,
-        description: permission.description,
-        roles: permission.role_permissions.map((rp) => rp.role),
-        created_at: permission.created_at,
-        updated_at: permission.updated_at,
-    };
+	return {
+		id: permission.id,
+		name: permission.name,
+		description: permission.description,
+		roles: permission.role_permissions.map((rp) => rp.role),
+		created_at: permission.created_at,
+		updated_at: permission.updated_at,
+	};
 };
 
 /**
@@ -106,22 +108,22 @@ export const getPermissionById = async (id: string) => {
  * @throws {Error} If permission name already exists or database operation fails
  */
 export const createPermission = async (data: CreatePermissionInput) => {
-    const existingPermission = await prisma.permission.findUnique({
-        where: { name: data.name },
-    });
+	const existingPermission = await prisma.permission.findUnique({
+		where: { name: data.name },
+	});
 
-    if (existingPermission) {
-        throw new Error("Permission with this name already exists");
-    }
+	if (existingPermission) {
+		throw new Error("Permission with this name already exists");
+	}
 
-    const permission = await prisma.permission.create({
-        data: {
-            name: data.name,
-            description: data.description,
-        },
-    });
+	const permission = await prisma.permission.create({
+		data: {
+			name: data.name,
+			description: data.description,
+		},
+	});
 
-    return permission;
+	return permission;
 };
 
 /**
@@ -132,35 +134,38 @@ export const createPermission = async (data: CreatePermissionInput) => {
  * @returns {Promise<Object>} Updated permission data
  * @throws {Error} If permission not found, name already exists, or database operation fails
  */
-export const updatePermission = async (id: string, data: UpdatePermissionInput) => {
-    const permission = await prisma.permission.findUnique({ where: { id } });
+export const updatePermission = async (
+	id: string,
+	data: UpdatePermissionInput,
+) => {
+	const permission = await prisma.permission.findUnique({ where: { id } });
 
-    if (!permission) {
-        throw new Error("Permission not found");
-    }
+	if (!permission) {
+		throw new Error("Permission not found");
+	}
 
-    if (data.name) {
-        const existingPermission = await prisma.permission.findFirst({
-            where: {
-                name: data.name,
-                id: { not: id },
-            },
-        });
+	if (data.name) {
+		const existingPermission = await prisma.permission.findFirst({
+			where: {
+				name: data.name,
+				id: { not: id },
+			},
+		});
 
-        if (existingPermission) {
-            throw new Error("Permission with this name already exists");
-        }
-    }
+		if (existingPermission) {
+			throw new Error("Permission with this name already exists");
+		}
+	}
 
-    const updatedPermission = await prisma.permission.update({
-        where: { id },
-        data: {
-            ...(data.name && { name: data.name }),
-            ...(data.description !== undefined && { description: data.description }),
-        },
-    });
+	const updatedPermission = await prisma.permission.update({
+		where: { id },
+		data: {
+			...(data.name && { name: data.name }),
+			...(data.description !== undefined && { description: data.description }),
+		},
+	});
 
-    return updatedPermission;
+	return updatedPermission;
 };
 
 /**
@@ -171,13 +176,13 @@ export const updatePermission = async (id: string, data: UpdatePermissionInput) 
  * @throws {Error} If permission not found or database operation fails
  */
 export const deletePermission = async (id: string) => {
-    const permission = await prisma.permission.findUnique({ where: { id } });
+	const permission = await prisma.permission.findUnique({ where: { id } });
 
-    if (!permission) {
-        throw new Error("Permission not found");
-    }
+	if (!permission) {
+		throw new Error("Permission not found");
+	}
 
-    await prisma.permission.delete({ where: { id } });
+	await prisma.permission.delete({ where: { id } });
 
-    return permission;
+	return permission;
 };

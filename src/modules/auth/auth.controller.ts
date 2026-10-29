@@ -7,7 +7,11 @@ import type { Request, Response } from "express";
 import * as httpStatusCodes from "@/lib/http-status-codes";
 import * as httpStatusPhrases from "@/lib/http-status-phrases";
 import * as authService from "@/modules/auth/auth.service";
-import type { LoginInput, RefreshTokenInput, RegisterInput } from "@/modules/auth/auth.validation";
+import type {
+	LoginInput,
+	RefreshTokenInput,
+	RegisterInput,
+} from "@/modules/auth/auth.validation";
 
 /**
  * Register a new user
@@ -17,29 +21,30 @@ import type { LoginInput, RefreshTokenInput, RegisterInput } from "@/modules/aut
  * @returns {Promise<void>} JSON response with tokens or error
  */
 export const register = async (req: Request, res: Response) => {
-    try {
-        const data = req.validated?.body as RegisterInput;
+	try {
+		const data = req.validated?.body as RegisterInput;
 
-        const tokens = await authService.register(data);
+		const tokens = await authService.register(data);
 
-        res.status(httpStatusCodes.CREATED).json({
-            success: true,
-            message: "User registered successfully",
-            data: tokens,
-        });
-    } catch (error) {
-        const message = error instanceof Error ? error.message : "Failed to register user";
-        const statusCode =
-            message === "User with this email already exists"
-                ? httpStatusCodes.CONFLICT
-                : httpStatusCodes.INTERNAL_SERVER_ERROR;
+		res.status(httpStatusCodes.CREATED).json({
+			success: true,
+			message: "User registered successfully",
+			data: tokens,
+		});
+	} catch (error) {
+		const message =
+			error instanceof Error ? error.message : "Failed to register user";
+		const statusCode =
+			message === "User with this email already exists"
+				? httpStatusCodes.CONFLICT
+				: httpStatusCodes.INTERNAL_SERVER_ERROR;
 
-        res.status(statusCode).json({
-            success: false,
-            message,
-            data: null,
-        });
-    }
+		res.status(statusCode).json({
+			success: false,
+			message,
+			data: null,
+		});
+	}
 };
 
 /**
@@ -50,27 +55,29 @@ export const register = async (req: Request, res: Response) => {
  * @returns {Promise<void>} JSON response with tokens or error
  */
 export const login = async (req: Request, res: Response) => {
-    try {
-        const data = req.validated?.body as LoginInput;
+	try {
+		const data = req.validated?.body as LoginInput;
 
-        const tokens = await authService.login(data);
+		const tokens = await authService.login(data);
 
-        res.status(httpStatusCodes.OK).json({
-            success: true,
-            message: "Login successful",
-            data: tokens,
-        });
-    } catch (error) {
-        const message = error instanceof Error ? error.message : "Failed to login";
-        const statusCode =
-            message === "Invalid credentials" ? httpStatusCodes.UNAUTHORIZED : httpStatusCodes.INTERNAL_SERVER_ERROR;
+		res.status(httpStatusCodes.OK).json({
+			success: true,
+			message: "Login successful",
+			data: tokens,
+		});
+	} catch (error) {
+		const message = error instanceof Error ? error.message : "Failed to login";
+		const statusCode =
+			message === "Invalid credentials"
+				? httpStatusCodes.UNAUTHORIZED
+				: httpStatusCodes.INTERNAL_SERVER_ERROR;
 
-        res.status(statusCode).json({
-            success: false,
-            message,
-            data: null,
-        });
-    }
+		res.status(statusCode).json({
+			success: false,
+			message,
+			data: null,
+		});
+	}
 };
 
 /**
@@ -81,29 +88,31 @@ export const login = async (req: Request, res: Response) => {
  * @returns {Promise<void>} JSON response with new tokens or error
  */
 export const refreshToken = async (req: Request, res: Response) => {
-    try {
-        const data = req.validated?.body as RefreshTokenInput;
+	try {
+		const data = req.validated?.body as RefreshTokenInput;
 
-        const tokens = await authService.refreshToken(data);
+		const tokens = await authService.refreshToken(data);
 
-        res.status(httpStatusCodes.OK).json({
-            success: true,
-            message: "Token refreshed successfully",
-            data: tokens,
-        });
-    } catch (error) {
-        const message = error instanceof Error ? error.message : "Failed to refresh token";
-        const statusCode =
-            message === "Invalid or expired refresh token" || message === "User not found"
-                ? httpStatusCodes.UNAUTHORIZED
-                : httpStatusCodes.INTERNAL_SERVER_ERROR;
+		res.status(httpStatusCodes.OK).json({
+			success: true,
+			message: "Token refreshed successfully",
+			data: tokens,
+		});
+	} catch (error) {
+		const message =
+			error instanceof Error ? error.message : "Failed to refresh token";
+		const statusCode =
+			message === "Invalid or expired refresh token" ||
+			message === "User not found"
+				? httpStatusCodes.UNAUTHORIZED
+				: httpStatusCodes.INTERNAL_SERVER_ERROR;
 
-        res.status(statusCode).json({
-            success: false,
-            message,
-            data: null,
-        });
-    }
+		res.status(statusCode).json({
+			success: false,
+			message,
+			data: null,
+		});
+	}
 };
 
 /**
@@ -114,31 +123,32 @@ export const refreshToken = async (req: Request, res: Response) => {
  * @returns {Promise<void>} JSON response with user profile or error
  */
 export const getProfile = async (req: Request, res: Response) => {
-    try {
-        const userId = req.user?.userId;
+	try {
+		const userId = req.user?.userId;
 
-        if (!userId) {
-            return res.status(httpStatusCodes.UNAUTHORIZED).json({
-                success: false,
-                message: httpStatusPhrases.UNAUTHORIZED,
-                data: null,
-            });
-        }
+		if (!userId) {
+			return res.status(httpStatusCodes.UNAUTHORIZED).json({
+				success: false,
+				message: httpStatusPhrases.UNAUTHORIZED,
+				data: null,
+			});
+		}
 
-        const user = await authService.getProfile(userId);
+		const user = await authService.getProfile(userId);
 
-        res.status(httpStatusCodes.OK).json({
-            success: true,
-            message: "Profile retrieved successfully",
-            data: user,
-        });
-    } catch (error) {
-        const message = error instanceof Error ? error.message : "Failed to get profile";
+		res.status(httpStatusCodes.OK).json({
+			success: true,
+			message: "Profile retrieved successfully",
+			data: user,
+		});
+	} catch (error) {
+		const message =
+			error instanceof Error ? error.message : "Failed to get profile";
 
-        res.status(httpStatusCodes.INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message,
-            data: null,
-        });
-    }
+		res.status(httpStatusCodes.INTERNAL_SERVER_ERROR).json({
+			success: false,
+			message,
+			data: null,
+		});
+	}
 };

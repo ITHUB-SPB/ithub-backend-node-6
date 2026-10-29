@@ -12,76 +12,76 @@ const title = "Express Starter API Documentation";
  * @param {Express} app Express application instance
  */
 export function setupScalarDocs(app: Express): void {
-    // Register /docs route to registry
-    registerRoute({
-        name: "docs",
-        method: "GET",
-        path: "/docs",
-        description: "API Documentation (Scalar)",
-        authenticated: false,
-    });
+	// Register /docs route to registry
+	registerRoute({
+		name: "docs",
+		method: "GET",
+		path: "/docs",
+		description: "API Documentation (Scalar)",
+		authenticated: false,
+	});
 
-    // Get all registered routes
-    const routes = getRegisteredRoutes();
+	// Get all registered routes
+	const routes = getRegisteredRoutes();
 
-    // Generate OpenAPI paths from routes
-    const paths = generateOpenApiPaths(routes);
+	// Generate OpenAPI paths from routes
+	const paths = generateOpenApiPaths(routes);
 
-    // Extract unique tags
-    const tags = Array.from(
-        new Set(
-            routes.map((route) => {
-                const parts = route.path.split("/").filter(Boolean);
-                if (parts.length > 0) {
-                    return parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
-                }
-                return "Default";
-            })
-        )
-    ).map((name) => ({ name, description: `${name} endpoints` }));
+	// Extract unique tags
+	const tags = Array.from(
+		new Set(
+			routes.map((route) => {
+				const parts = route.path.split("/").filter(Boolean);
+				if (parts.length > 0) {
+					return parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
+				}
+				return "Default";
+			}),
+		),
+	).map((name) => ({ name, description: `${name} endpoints` }));
 
-    const openApiSpec = {
-        openapi: "3.0.0",
-        info: {
-            title,
-            version: packageJSON.version,
-            description: packageJSON.description,
-        },
-        servers: [
-            {
-                url: `http://localhost:${env.PORT}`,
-                description: `Local server running on port ${env.PORT}`,
-            },
-        ],
-        tags,
-        paths,
-        components: {
-            schemas: {},
-            responses: {},
-            parameters: {},
-            securitySchemes: {
-                bearerAuth: {
-                    type: "http",
-                    scheme: "bearer",
-                    bearerFormat: "JWT",
-                },
-            },
-        },
-    };
+	const openApiSpec = {
+		openapi: "3.0.0",
+		info: {
+			title,
+			version: packageJSON.version,
+			description: packageJSON.description,
+		},
+		servers: [
+			{
+				url: `http://localhost:${env.PORT}`,
+				description: `Local server running on port ${env.PORT}`,
+			},
+		],
+		tags,
+		paths,
+		components: {
+			schemas: {},
+			responses: {},
+			parameters: {},
+			securitySchemes: {
+				bearerAuth: {
+					type: "http",
+					scheme: "bearer",
+					bearerFormat: "JWT",
+				},
+			},
+		},
+	};
 
-    app.use(
-        "/docs",
-        apiReference({
-            pageTitle: title,
-            theme: "laserwave",
-            layout: "classic",
-            defaultHttpClient: {
-                targetKey: "js",
-                clientKey: "fetch",
-            },
-            spec: {
-                content: openApiSpec,
-            },
-        })
-    );
+	app.use(
+		"/docs",
+		apiReference({
+			pageTitle: title,
+			theme: "laserwave",
+			layout: "classic",
+			defaultHttpClient: {
+				targetKey: "js",
+				clientKey: "fetch",
+			},
+			spec: {
+				content: openApiSpec,
+			},
+		}),
+	);
 }

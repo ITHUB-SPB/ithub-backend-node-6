@@ -8,34 +8,34 @@ import z from "zod";
  * Role schema for nested objects
  */
 const roleSchema = z.object({
-    id: z.string(),
-    name: z.string(),
-    description: z.string().nullable(),
+	id: z.string(),
+	name: z.string(),
+	description: z.string().nullable(),
 });
 
 /**
  * Single permission data schema
  */
 const permissionDataSchema = z.object({
-    id: z.string(),
-    name: z.string(),
-    description: z.string().nullable(),
-    roles: z.array(roleSchema).optional(),
-    roles_count: z.number().optional(),
-    created_at: z.string(),
-    updated_at: z.string(),
+	id: z.string(),
+	name: z.string(),
+	description: z.string().nullable(),
+	roles: z.array(roleSchema).optional(),
+	roles_count: z.number().optional(),
+	created_at: z.string(),
+	updated_at: z.string(),
 });
 
 /**
  * Pagination meta schema
  */
 const paginationMetaSchema = z.object({
-    page: z.number(),
-    per_page: z.number(),
-    total: z.number(),
-    total_pages: z.number(),
-    has_next_page: z.boolean(),
-    has_prev_page: z.boolean(),
+	page: z.number(),
+	per_page: z.number(),
+	total: z.number(),
+	total_pages: z.number(),
+	has_next_page: z.boolean(),
+	has_prev_page: z.boolean(),
 });
 
 /**
@@ -43,10 +43,10 @@ const paginationMetaSchema = z.object({
  * @typedef {Object} PermissionListResponse
  */
 export const permissionListResponseSchema = z.object({
-    success: z.boolean(),
-    message: z.string(),
-    data: z.array(permissionDataSchema),
-    meta: paginationMetaSchema,
+	success: z.boolean(),
+	message: z.string(),
+	data: z.array(permissionDataSchema),
+	meta: paginationMetaSchema,
 });
 
 /**
@@ -54,9 +54,9 @@ export const permissionListResponseSchema = z.object({
  * @typedef {Object} PermissionDetailResponse
  */
 export const permissionDetailResponseSchema = z.object({
-    success: z.boolean(),
-    message: z.string(),
-    data: permissionDataSchema.nullable(),
+	success: z.boolean(),
+	message: z.string(),
+	data: permissionDataSchema.nullable(),
 });
 
 /**
@@ -64,17 +64,17 @@ export const permissionDetailResponseSchema = z.object({
  * @typedef {Object} PermissionCreatedResponse
  */
 export const permissionCreatedResponseSchema = z.object({
-    success: z.boolean(),
-    message: z.string(),
-    data: z
-        .object({
-            id: z.string(),
-            name: z.string(),
-            description: z.string().nullable(),
-            created_at: z.string(),
-            updated_at: z.string(),
-        })
-        .nullable(),
+	success: z.boolean(),
+	message: z.string(),
+	data: z
+		.object({
+			id: z.string(),
+			name: z.string(),
+			description: z.string().nullable(),
+			created_at: z.string(),
+			updated_at: z.string(),
+		})
+		.nullable(),
 });
 
 /**
@@ -84,8 +84,11 @@ export const permissionCreatedResponseSchema = z.object({
  * @property {string} [description] - Permission description (optional)
  */
 export const createPermissionSchema = z.object({
-    name: z.string().min(2, "Name must be at least 2 characters").max(100, "Name must not exceed 100 characters"),
-    description: z.string().optional(),
+	name: z
+		.string()
+		.min(2, "Name must be at least 2 characters")
+		.max(100, "Name must not exceed 100 characters"),
+	description: z.string().optional(),
 });
 
 export type CreatePermissionInput = z.infer<typeof createPermissionSchema>;
@@ -97,12 +100,12 @@ export type CreatePermissionInput = z.infer<typeof createPermissionSchema>;
  * @property {string} [description] - Permission description (optional)
  */
 export const updatePermissionSchema = z.object({
-    name: z
-        .string()
-        .min(2, "Name must be at least 2 characters")
-        .max(100, "Name must not exceed 100 characters")
-        .optional(),
-    description: z.string().optional(),
+	name: z
+		.string()
+		.min(2, "Name must be at least 2 characters")
+		.max(100, "Name must not exceed 100 characters")
+		.optional(),
+	description: z.string().optional(),
 });
 
 export type UpdatePermissionInput = z.infer<typeof updatePermissionSchema>;
@@ -113,7 +116,7 @@ export type UpdatePermissionInput = z.infer<typeof updatePermissionSchema>;
  * @property {string} id - UUID of the permission
  */
 export const permissionIdParamSchema = z.object({
-    id: z.string().uuid("Invalid permission ID format"),
+	id: z.string().uuid("Invalid permission ID format"),
 });
 
 /**
@@ -123,8 +126,8 @@ export const permissionIdParamSchema = z.object({
  * @property {number} [per_page=10] - Items per page (1-100)
  */
 export const listQuerySchema = z.object({
-    page: z.coerce.number().positive().default(1),
-    per_page: z.coerce.number().positive().max(100).default(10),
+	page: z.coerce.number().positive().default(1),
+	per_page: z.coerce.number().positive().max(100).default(10),
 });
 
 export type GetAllPermissionsParams = z.infer<typeof listQuerySchema>;

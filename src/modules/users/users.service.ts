@@ -5,7 +5,10 @@
 
 import { prisma } from "@/application/database";
 import type { Prisma } from "@/generated/prisma/client";
-import type { GetAllUsersParams, PaginationMeta } from "@/modules/users/users.validation";
+import type {
+	GetAllUsersParams,
+	PaginationMeta,
+} from "@/modules/users/users.validation";
 
 /**
  * Get all users with pagination
@@ -15,45 +18,45 @@ import type { GetAllUsersParams, PaginationMeta } from "@/modules/users/users.va
  * @throws {Error} If database operation fails
  */
 export const getAllUsers = async (params: GetAllUsersParams = {}) => {
-    const page = params.page || 1;
-    const per_page = params.per_page || 10;
-    const skip = (page - 1) * per_page;
+	const page = params.page || 1;
+	const per_page = params.per_page || 10;
+	const skip = (page - 1) * per_page;
 
-    const total = await prisma.user.count();
+	const total = await prisma.user.count();
 
-    const users = await prisma.user.findMany({
-        skip,
-        take: per_page,
-        orderBy: {
-            created_at: "desc",
-        },
-        select: {
-            id: true,
-            name: true,
-            email: true,
-            email_verified_at: true,
-            created_at: true,
-            updated_at: true,
-        },
-    });
+	const users = await prisma.user.findMany({
+		skip,
+		take: per_page,
+		orderBy: {
+			created_at: "desc",
+		},
+		select: {
+			id: true,
+			name: true,
+			email: true,
+			email_verified_at: true,
+			created_at: true,
+			updated_at: true,
+		},
+	});
 
-    const total_pages = Math.ceil(total / per_page);
-    const has_next_page = page < total_pages;
-    const has_prev_page = page > 1;
+	const total_pages = Math.ceil(total / per_page);
+	const has_next_page = page < total_pages;
+	const has_prev_page = page > 1;
 
-    const meta: PaginationMeta = {
-        total,
-        page,
-        per_page,
-        total_pages,
-        has_next_page,
-        has_prev_page,
-    };
+	const meta: PaginationMeta = {
+		total,
+		page,
+		per_page,
+		total_pages,
+		has_next_page,
+		has_prev_page,
+	};
 
-    return {
-        data: users,
-        meta,
-    };
+	return {
+		data: users,
+		meta,
+	};
 };
 
 /**
@@ -64,19 +67,19 @@ export const getAllUsers = async (params: GetAllUsersParams = {}) => {
  * @throws {Error} If database operation fails
  */
 export const findUserById = async (id: string) => {
-    const user = await prisma.user.findUnique({
-        where: { id },
-        select: {
-            id: true,
-            name: true,
-            email: true,
-            email_verified_at: true,
-            created_at: true,
-            updated_at: true,
-        },
-    });
+	const user = await prisma.user.findUnique({
+		where: { id },
+		select: {
+			id: true,
+			name: true,
+			email: true,
+			email_verified_at: true,
+			created_at: true,
+			updated_at: true,
+		},
+	});
 
-    return user;
+	return user;
 };
 
 /**
@@ -87,19 +90,19 @@ export const findUserById = async (id: string) => {
  * @throws {Error} If database operation fails
  */
 export const findUserByEmail = async (email: string) => {
-    const user = await prisma.user.findUnique({
-        where: { email },
-        select: {
-            id: true,
-            name: true,
-            email: true,
-            email_verified_at: true,
-            created_at: true,
-            updated_at: true,
-        },
-    });
+	const user = await prisma.user.findUnique({
+		where: { email },
+		select: {
+			id: true,
+			name: true,
+			email: true,
+			email_verified_at: true,
+			created_at: true,
+			updated_at: true,
+		},
+	});
 
-    return user;
+	return user;
 };
 
 /**
@@ -110,19 +113,19 @@ export const findUserByEmail = async (email: string) => {
  * @throws {Error} If database operation fails or validation error occurs
  */
 export const createUser = async (data: Prisma.UserCreateInput) => {
-    const user = await prisma.user.create({
-        data,
-        select: {
-            id: true,
-            name: true,
-            email: true,
-            email_verified_at: true,
-            created_at: true,
-            updated_at: true,
-        },
-    });
+	const user = await prisma.user.create({
+		data,
+		select: {
+			id: true,
+			name: true,
+			email: true,
+			email_verified_at: true,
+			created_at: true,
+			updated_at: true,
+		},
+	});
 
-    return user;
+	return user;
 };
 
 /**
@@ -134,20 +137,20 @@ export const createUser = async (data: Prisma.UserCreateInput) => {
  * @throws {Error} If user not found or database operation fails
  */
 export const updateUser = async (id: string, data: Prisma.UserUpdateInput) => {
-    const user = await prisma.user.update({
-        where: { id },
-        data,
-        select: {
-            id: true,
-            name: true,
-            email: true,
-            email_verified_at: true,
-            created_at: true,
-            updated_at: true,
-        },
-    });
+	const user = await prisma.user.update({
+		where: { id },
+		data,
+		select: {
+			id: true,
+			name: true,
+			email: true,
+			email_verified_at: true,
+			created_at: true,
+			updated_at: true,
+		},
+	});
 
-    return user;
+	return user;
 };
 
 /**
@@ -158,14 +161,14 @@ export const updateUser = async (id: string, data: Prisma.UserUpdateInput) => {
  * @throws {Error} If user not found or database operation fails
  */
 export const deleteUser = async (id: string) => {
-    const user = await prisma.user.delete({
-        where: { id },
-        select: {
-            id: true,
-            name: true,
-            email: true,
-        },
-    });
+	const user = await prisma.user.delete({
+		where: { id },
+		select: {
+			id: true,
+			name: true,
+			email: true,
+		},
+	});
 
-    return user;
+	return user;
 };

@@ -5,8 +5,16 @@
 
 import bcrypt from "bcrypt";
 import { prisma } from "@/application/database";
-import { generateTokenPair, type TokenPair, verifyRefreshToken } from "@/lib/jwt";
-import type { LoginInput, RefreshTokenInput, RegisterInput } from "@/modules/auth/auth.validation";
+import {
+	generateTokenPair,
+	type TokenPair,
+	verifyRefreshToken,
+} from "@/lib/jwt";
+import type {
+	LoginInput,
+	RefreshTokenInput,
+	RegisterInput,
+} from "@/modules/auth/auth.validation";
 
 /**
  * Register a new user
@@ -16,29 +24,29 @@ import type { LoginInput, RefreshTokenInput, RegisterInput } from "@/modules/aut
  * @throws {Error} If user with email already exists or database operation fails
  */
 export const register = async (data: RegisterInput): Promise<TokenPair> => {
-    // Check if user already exists
-    const existingUser = await prisma.user.findUnique({
-        where: { email: data.email },
-    });
+	// Check if user already exists
+	const existingUser = await prisma.user.findUnique({
+		where: { email: data.email },
+	});
 
-    if (existingUser) {
-        throw new Error("User with this email already exists");
-    }
+	if (existingUser) {
+		throw new Error("User with this email already exists");
+	}
 
-    const hashedPassword = await bcrypt.hash(data.password, 10);
+	const hashedPassword = await bcrypt.hash(data.password, 10);
 
-    const user = await prisma.user.create({
-        data: {
-            name: data.name,
-            email: data.email,
-            password: hashedPassword,
-        },
-    });
+	const user = await prisma.user.create({
+		data: {
+			name: data.name,
+			email: data.email,
+			password: hashedPassword,
+		},
+	});
 
-    return generateTokenPair({
-        userId: user.id,
-        email: user.email,
-    });
+	return generateTokenPair({
+		userId: user.id,
+		email: user.email,
+	});
 };
 
 /**
@@ -49,24 +57,24 @@ export const register = async (data: RegisterInput): Promise<TokenPair> => {
  * @throws {Error} If credentials are invalid or database operation fails
  */
 export const login = async (data: LoginInput): Promise<TokenPair> => {
-    const user = await prisma.user.findUnique({
-        where: { email: data.email },
-    });
+	const user = await prisma.user.findUnique({
+		where: { email: data.email },
+	});
 
-    if (!user) {
-        throw new Error("Invalid credentials");
-    }
+	if (!user) {
+		throw new Error("Invalid credentials");
+	}
 
-    const isValidPassword = await bcrypt.compare(data.password, user.password);
+	const isValidPassword = await bcrypt.compare(data.password, user.password);
 
-    if (!isValidPassword) {
-        throw new Error("Invalid credentials");
-    }
+	if (!isValidPassword) {
+		throw new Error("Invalid credentials");
+	}
 
-    return generateTokenPair({
-        userId: user.id,
-        email: user.email,
-    });
+	return generateTokenPair({
+		userId: user.id,
+		email: user.email,
+	});
 };
 
 /**
@@ -76,25 +84,27 @@ export const login = async (data: LoginInput): Promise<TokenPair> => {
  * @returns {Promise<TokenPair>} New access and refresh tokens
  * @throws {Error} If refresh token is invalid/expired or user not found
  */
-export const refreshToken = async (data: RefreshTokenInput): Promise<TokenPair> => {
-    const payload = verifyRefreshToken(data.refresh_token);
+export const refreshToken = async (
+	data: RefreshTokenInput,
+): Promise<TokenPair> => {
+	const payload = verifyRefreshToken(data.refresh_token);
 
-    if (!payload) {
-        throw new Error("Invalid or expired refresh token");
-    }
+	if (!payload) {
+		throw new Error("Invalid or expired refresh token");
+	}
 
-    const user = await prisma.user.findUnique({
-        where: { id: payload.userId },
-    });
+	const user = await prisma.user.findUnique({
+		where: { id: payload.userId },
+	});
 
-    if (!user) {
-        throw new Error("User not found");
-    }
+	if (!user) {
+		throw new Error("User not found");
+	}
 
-    return generateTokenPair({
-        userId: user.id,
-        email: user.email,
-    });
+	return generateTokenPair({
+		userId: user.id,
+		email: user.email,
+	});
 };
 
 /**
@@ -105,21 +115,21 @@ export const refreshToken = async (data: RefreshTokenInput): Promise<TokenPair> 
  * @throws {Error} If user not found or database operation fails
  */
 export const getProfile = async (userId: string) => {
-    const user = await prisma.user.findUnique({
-        where: { id: userId },
-        select: {
-            id: true,
-            name: true,
-            email: true,
-            email_verified_at: true,
-            created_at: true,
-            updated_at: true,
-        },
-    });
+	const user = await prisma.user.findUnique({
+		where: { id: userId },
+		select: {
+			id: true,
+			name: true,
+			email: true,
+			email_verified_at: true,
+			created_at: true,
+			updated_at: true,
+		},
+	});
 
-    if (!user) {
-        throw new Error("User not found");
-    }
+	if (!user) {
+		throw new Error("User not found");
+	}
 
-    return user;
+	return user;
 };

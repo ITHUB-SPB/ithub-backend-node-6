@@ -16,16 +16,16 @@ import * as service from "@/modules/health/health.service";
  * @returns {Promise<void>}
  */
 export const index = async (_req: Request, res: Response): Promise<void> => {
-    try {
-        const data = await service.healthIndex();
-        res.status(OK).json({
-            status: "success",
-            data,
-        });
-    } catch (error) {
-        res.status(INTERNAL_SERVER_ERROR).json({
-            message: INTERNAL_SERVER_ERROR_PHRASE,
-            error: error instanceof Error ? error.message : String(error),
-        });
-    }
+	try {
+		const data = await service.healthIndex();
+		res.status(OK).json({
+			status: "success",
+			data,
+		});
+	} catch (error) {
+		res.status(INTERNAL_SERVER_ERROR).json({
+			message: INTERNAL_SERVER_ERROR_PHRASE,
+			error: error instanceof Error ? error.message : String(error),
+		});
+	}
 };

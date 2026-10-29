@@ -11,46 +11,50 @@ import onError from "@/middleware/on-error";
 import serveEmojiFavicon from "@/middleware/serve-emoji-favicon";
 
 async function startServer() {
-    try {
-        await connectDb();
-        await initRedis();
+	try {
+		await connectDb();
+		await initRedis();
 
-        const app = express();
+		const app = express();
 
-        app.use(httpLogger);
-        app.use(express.json());
-        app.use(express.urlencoded({ extended: true }));
-        app.use(serveEmojiFavicon("🚀"));
+		app.use(httpLogger);
+		app.use(express.json());
+		app.use(express.urlencoded({ extended: true }));
+		app.use(serveEmojiFavicon("🚀"));
 
-        registerModules(app, true);
-        setupScalarDocs(app);
+		await registerModules(app, true);
+		setupScalarDocs(app);
 
-        app.use(notFound);
-        app.use(onError);
+		app.use(notFound);
+		app.use(onError);
 
-        app.listen(env.PORT, () => {
-            logger.info(`Health check available at http://localhost:${env.PORT}/health`);
-            logger.info(`Documentation available at http://localhost:${env.PORT}/docs`);
-            logger.info(`Server is running at http://localhost:${env.PORT}`);
-        });
-    } catch (error) {
-        logger.error("Failed to start server:", error);
-        process.exit(1);
-    }
+		app.listen(env.PORT, () => {
+			logger.info(
+				`Health check available at http://localhost:${env.PORT}/health`,
+			);
+			logger.info(
+				`Documentation available at http://localhost:${env.PORT}/docs`,
+			);
+			logger.info(`Server is running at http://localhost:${env.PORT}`);
+		});
+	} catch (error) {
+		logger.error("Failed to start server:", error);
+		process.exit(1);
+	}
 }
 
 process.on("SIGINT", async () => {
-    logger.info("Shutting down gracefully...");
-    await disconnectDb();
-    await closeRedis();
-    process.exit(0);
+	logger.info("Shutting down gracefully...");
+	await disconnectDb();
+	await closeRedis();
+	process.exit(0);
 });
 
 process.on("SIGTERM", async () => {
-    logger.info("Shutting down gracefully...");
-    await disconnectDb();
-    await closeRedis();
-    process.exit(0);
+	logger.info("Shutting down gracefully...");
+	await disconnectDb();
+	await closeRedis();
+	process.exit(0);
 });
 
 startServer();

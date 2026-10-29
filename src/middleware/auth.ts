@@ -16,35 +16,39 @@ import { verifyAccessToken } from "@/lib/jwt";
  * @param {NextFunction} next - Express next middleware function
  * @returns {void} Calls next() if authenticated, otherwise sends 401 Unauthorized response
  */
-export const authenticate = (req: Request, res: Response, next: NextFunction) => {
-    const authHeader = req.headers.authorization;
+export const authenticate = (
+	req: Request,
+	res: Response,
+	next: NextFunction,
+) => {
+	const authHeader = req.headers.authorization;
 
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-        return res.status(httpStatusCodes.UNAUTHORIZED).json({
-            success: false,
-            message: "Missing or invalid authorization header",
-            data: null,
-        });
-    }
+	if (!authHeader || !authHeader.startsWith("Bearer ")) {
+		return res.status(httpStatusCodes.UNAUTHORIZED).json({
+			success: false,
+			message: "Missing or invalid authorization header",
+			data: null,
+		});
+	}
 
-    const token = authHeader.substring(7); // Remove 'Bearer ' prefix
+	const token = authHeader.substring(7); // Remove 'Bearer ' prefix
 
-    const payload = verifyAccessToken(token);
+	const payload = verifyAccessToken(token);
 
-    if (!payload) {
-        return res.status(httpStatusCodes.UNAUTHORIZED).json({
-            success: false,
-            message: httpStatusPhrases.UNAUTHORIZED,
-            data: null,
-        });
-    }
+	if (!payload) {
+		return res.status(httpStatusCodes.UNAUTHORIZED).json({
+			success: false,
+			message: httpStatusPhrases.UNAUTHORIZED,
+			data: null,
+		});
+	}
 
-    req.user = {
-        userId: payload.userId,
-        email: payload.email,
-    };
+	req.user = {
+		userId: payload.userId,
+		email: payload.email,
+	};
 
-    next();
+	next();
 };
 
 /**
@@ -55,20 +59,24 @@ export const authenticate = (req: Request, res: Response, next: NextFunction) =>
  * @param {NextFunction} next - Express next middleware function
  * @returns {void} Always calls next(), attaches user info if token is valid
  */
-export const optionalAuthenticate = (req: Request, _res: Response, next: NextFunction) => {
-    const authHeader = req.headers.authorization;
+export const optionalAuthenticate = (
+	req: Request,
+	_res: Response,
+	next: NextFunction,
+) => {
+	const authHeader = req.headers.authorization;
 
-    if (authHeader?.startsWith("Bearer ")) {
-        const token = authHeader.substring(7);
-        const payload = verifyAccessToken(token);
+	if (authHeader?.startsWith("Bearer ")) {
+		const token = authHeader.substring(7);
+		const payload = verifyAccessToken(token);
 
-        if (payload) {
-            req.user = {
-                userId: payload.userId,
-                email: payload.email,
-            };
-        }
-    }
+		if (payload) {
+			req.user = {
+				userId: payload.userId,
+				email: payload.email,
+			};
+		}
+	}
 
-    next();
+	next();
 };

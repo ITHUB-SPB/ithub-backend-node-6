@@ -16,10 +16,10 @@ const basePath = "";
  * @access Public
  */
 route.get("/", controller.index, {
-    name: "home.index",
-    basePath,
-    description: "Landing page with starter template information and features",
-    authenticated: false,
+	name: "home.index",
+	basePath,
+	description: "Landing page with starter template information and features",
+	authenticated: false,
 });
 
 export const path = "/";

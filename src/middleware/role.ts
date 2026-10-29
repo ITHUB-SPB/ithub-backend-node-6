@@ -5,7 +5,11 @@
 
 import type { NextFunction, Request, Response } from "express";
 import { prisma } from "@/application/database";
-import { FORBIDDEN, INTERNAL_SERVER_ERROR, UNAUTHORIZED } from "@/lib/http-status-codes";
+import {
+	FORBIDDEN,
+	INTERNAL_SERVER_ERROR,
+	UNAUTHORIZED,
+} from "@/lib/http-status-codes";
 
 /**
  * Middleware to check if user has required role(s)
@@ -17,48 +21,50 @@ import { FORBIDDEN, INTERNAL_SERVER_ERROR, UNAUTHORIZED } from "@/lib/http-statu
  * @throws {500} If database operation fails
  */
 export const hasRole = (roles: string | string[]) => {
-    return async (req: Request, res: Response, next: NextFunction) => {
-        if (!req.user?.userId) {
-            return res.status(UNAUTHORIZED).json({
-                success: false,
-                message: "User not authenticated",
-                data: null,
-            });
-        }
+	return async (req: Request, res: Response, next: NextFunction) => {
+		if (!req.user?.userId) {
+			return res.status(UNAUTHORIZED).json({
+				success: false,
+				message: "User not authenticated",
+				data: null,
+			});
+		}
 
-        try {
-            const allowedRoles = Array.isArray(roles) ? roles : [roles];
+		try {
+			const allowedRoles = Array.isArray(roles) ? roles : [roles];
 
-            const userRoles = await prisma.userRole.findMany({
-                where: { user_id: req.user.userId },
-                include: {
-                    role: {
-                        select: {
-                            name: true,
-                        },
-                    },
-                },
-            });
+			const userRoles = await prisma.userRole.findMany({
+				where: { user_id: req.user.userId },
+				include: {
+					role: {
+						select: {
+							name: true,
+						},
+					},
+				},
+			});
 
-            const userRoleNames = userRoles.map((ur) => ur.role.name);
+			const userRoleNames = userRoles.map((ur) => ur.role.name);
 
-            const hasRequiredRole = allowedRoles.some((role) => userRoleNames.includes(role));
+			const hasRequiredRole = allowedRoles.some((role) =>
+				userRoleNames.includes(role),
+			);
 
-            if (!hasRequiredRole) {
-                return res.status(FORBIDDEN).json({
-                    success: false,
-                    message: `Access denied. Required role(s): ${allowedRoles.join(", ")}`,
-                    data: null,
-                });
-            }
+			if (!hasRequiredRole) {
+				return res.status(FORBIDDEN).json({
+					success: false,
+					message: `Access denied. Required role(s): ${allowedRoles.join(", ")}`,
+					data: null,
+				});
+			}
 
-            next();
-        } catch (_error) {
-            return res.status(INTERNAL_SERVER_ERROR).json({
-                success: false,
-                message: "Failed to check user role",
-                data: null,
-            });
-        }
-    };
+			next();
+		} catch (_error) {
+			return res.status(INTERNAL_SERVER_ERROR).json({
+				success: false,
+				message: "Failed to check user role",
+				data: null,
+			});
+		}
+	};
 };

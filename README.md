@@ -269,7 +269,6 @@ docker-compose restart
 | `JWT_EXPIRES_IN`         | Access token expiry                  | 7d          |
 | `JWT_REFRESH_SECRET`     | Refresh token secret                 | -           |
 | `JWT_REFRESH_EXPIRES_IN` | Refresh token expiry                 | 30d         |
-| `DATABASE_URL`           | PostgreSQL connection string         | -           |
 | `REDIS_URL`              | Redis connection string              | -           |
 
 ### Database Configuration

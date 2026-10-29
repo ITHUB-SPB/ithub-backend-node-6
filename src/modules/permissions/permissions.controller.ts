@@ -7,9 +7,9 @@ import type { Request, Response } from "express";
 import * as httpStatusCodes from "@/lib/http-status-codes";
 import * as permissionsService from "@/modules/permissions/permissions.service";
 import type {
-    CreatePermissionInput,
-    GetAllPermissionsParams,
-    UpdatePermissionInput,
+	CreatePermissionInput,
+	GetAllPermissionsParams,
+	UpdatePermissionInput,
 } from "@/modules/permissions/permissions.validation";
 
 /**
@@ -20,24 +20,25 @@ import type {
  * @returns {Promise<void>} JSON response with permissions data and pagination metadata
  */
 export const index = async (req: Request, res: Response) => {
-    try {
-        const params = req.validated?.query as GetAllPermissionsParams;
-        const result = await permissionsService.getAllPermissions(params);
+	try {
+		const params = req.validated?.query as GetAllPermissionsParams;
+		const result = await permissionsService.getAllPermissions(params);
 
-        res.status(httpStatusCodes.OK).json({
-            success: true,
-            message: "Permissions retrieved successfully",
-            data: result.data,
-            meta: result.meta,
-        });
-    } catch (error) {
-        const message = error instanceof Error ? error.message : "Failed to retrieve permissions";
-        res.status(httpStatusCodes.INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message,
-            data: null,
-        });
-    }
+		res.status(httpStatusCodes.OK).json({
+			success: true,
+			message: "Permissions retrieved successfully",
+			data: result.data,
+			meta: result.meta,
+		});
+	} catch (error) {
+		const message =
+			error instanceof Error ? error.message : "Failed to retrieve permissions";
+		res.status(httpStatusCodes.INTERNAL_SERVER_ERROR).json({
+			success: false,
+			message,
+			data: null,
+		});
+	}
 };
 
 /**
@@ -48,26 +49,29 @@ export const index = async (req: Request, res: Response) => {
  * @returns {Promise<void>} JSON response with permission data or error
  */
 export const show = async (req: Request, res: Response) => {
-    try {
-        const { id } = req.params;
-        const permission = await permissionsService.getPermissionById(id as string);
+	try {
+		const { id } = req.params;
+		const permission = await permissionsService.getPermissionById(id as string);
 
-        res.status(httpStatusCodes.OK).json({
-            success: true,
-            message: "Permission retrieved successfully",
-            data: permission,
-        });
-    } catch (error) {
-        const message = error instanceof Error ? error.message : "Failed to retrieve permission";
-        const statusCode =
-            message === "Permission not found" ? httpStatusCodes.NOT_FOUND : httpStatusCodes.INTERNAL_SERVER_ERROR;
+		res.status(httpStatusCodes.OK).json({
+			success: true,
+			message: "Permission retrieved successfully",
+			data: permission,
+		});
+	} catch (error) {
+		const message =
+			error instanceof Error ? error.message : "Failed to retrieve permission";
+		const statusCode =
+			message === "Permission not found"
+				? httpStatusCodes.NOT_FOUND
+				: httpStatusCodes.INTERNAL_SERVER_ERROR;
 
-        res.status(statusCode).json({
-            success: false,
-            message,
-            data: null,
-        });
-    }
+		res.status(statusCode).json({
+			success: false,
+			message,
+			data: null,
+		});
+	}
 };
 
 /**
@@ -78,28 +82,29 @@ export const show = async (req: Request, res: Response) => {
  * @returns {Promise<void>} JSON response with created permission data or error
  */
 export const store = async (req: Request, res: Response) => {
-    try {
-        const data = req.validated?.body as CreatePermissionInput;
-        const permission = await permissionsService.createPermission(data);
+	try {
+		const data = req.validated?.body as CreatePermissionInput;
+		const permission = await permissionsService.createPermission(data);
 
-        res.status(httpStatusCodes.CREATED).json({
-            success: true,
-            message: "Permission created successfully",
-            data: permission,
-        });
-    } catch (error) {
-        const message = error instanceof Error ? error.message : "Failed to create permission";
-        const statusCode =
-            message === "Permission with this name already exists"
-                ? httpStatusCodes.CONFLICT
-                : httpStatusCodes.INTERNAL_SERVER_ERROR;
+		res.status(httpStatusCodes.CREATED).json({
+			success: true,
+			message: "Permission created successfully",
+			data: permission,
+		});
+	} catch (error) {
+		const message =
+			error instanceof Error ? error.message : "Failed to create permission";
+		const statusCode =
+			message === "Permission with this name already exists"
+				? httpStatusCodes.CONFLICT
+				: httpStatusCodes.INTERNAL_SERVER_ERROR;
 
-        res.status(statusCode).json({
-            success: false,
-            message,
-            data: null,
-        });
-    }
+		res.status(statusCode).json({
+			success: false,
+			message,
+			data: null,
+		});
+	}
 };
 
 /**
@@ -110,31 +115,35 @@ export const store = async (req: Request, res: Response) => {
  * @returns {Promise<void>} JSON response with updated permission data or error
  */
 export const update = async (req: Request, res: Response) => {
-    try {
-        const { id } = req.params;
-        const data = req.validated?.body as UpdatePermissionInput;
-        const permission = await permissionsService.updatePermission(id as string, data);
+	try {
+		const { id } = req.params;
+		const data = req.validated?.body as UpdatePermissionInput;
+		const permission = await permissionsService.updatePermission(
+			id as string,
+			data,
+		);
 
-        res.status(httpStatusCodes.OK).json({
-            success: true,
-            message: "Permission updated successfully",
-            data: permission,
-        });
-    } catch (error) {
-        const message = error instanceof Error ? error.message : "Failed to update permission";
-        const statusCode =
-            message === "Permission not found"
-                ? httpStatusCodes.NOT_FOUND
-                : message === "Permission with this name already exists"
-                    ? httpStatusCodes.CONFLICT
-                    : httpStatusCodes.INTERNAL_SERVER_ERROR;
+		res.status(httpStatusCodes.OK).json({
+			success: true,
+			message: "Permission updated successfully",
+			data: permission,
+		});
+	} catch (error) {
+		const message =
+			error instanceof Error ? error.message : "Failed to update permission";
+		const statusCode =
+			message === "Permission not found"
+				? httpStatusCodes.NOT_FOUND
+				: message === "Permission with this name already exists"
+					? httpStatusCodes.CONFLICT
+					: httpStatusCodes.INTERNAL_SERVER_ERROR;
 
-        res.status(statusCode).json({
-            success: false,
-            message,
-            data: null,
-        });
-    }
+		res.status(statusCode).json({
+			success: false,
+			message,
+			data: null,
+		});
+	}
 };
 
 /**
@@ -145,24 +154,27 @@ export const update = async (req: Request, res: Response) => {
  * @returns {Promise<void>} JSON response with deleted permission data or error
  */
 export const destroy = async (req: Request, res: Response) => {
-    try {
-        const { id } = req.params;
-        const permission = await permissionsService.deletePermission(id as string);
+	try {
+		const { id } = req.params;
+		const permission = await permissionsService.deletePermission(id as string);
 
-        res.status(httpStatusCodes.OK).json({
-            success: true,
-            message: "Permission deleted successfully",
-            data: permission,
-        });
-    } catch (error) {
-        const message = error instanceof Error ? error.message : "Failed to delete permission";
-        const statusCode =
-            message === "Permission not found" ? httpStatusCodes.NOT_FOUND : httpStatusCodes.INTERNAL_SERVER_ERROR;
+		res.status(httpStatusCodes.OK).json({
+			success: true,
+			message: "Permission deleted successfully",
+			data: permission,
+		});
+	} catch (error) {
+		const message =
+			error instanceof Error ? error.message : "Failed to delete permission";
+		const statusCode =
+			message === "Permission not found"
+				? httpStatusCodes.NOT_FOUND
+				: httpStatusCodes.INTERNAL_SERVER_ERROR;
 
-        res.status(statusCode).json({
-            success: false,
-            message,
-            data: null,
-        });
-    }
+		res.status(statusCode).json({
+			success: false,
+			message,
+			data: null,
+		});
+	}
 };

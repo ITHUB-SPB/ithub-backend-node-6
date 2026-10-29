@@ -9,11 +9,11 @@ import type { HealthData } from "@/modules/health/health.validation";
  * @returns {Promise<HealthData>}
  */
 export const healthIndex = async (): Promise<HealthData> => {
-    const health: HealthData = {
-        status: "ok",
-        timestamp: new Date().toISOString(),
-        uptime: Math.floor(process.uptime()),
-    };
+	const health: HealthData = {
+		status: "ok",
+		timestamp: new Date().toISOString(),
+		uptime: Math.floor(process.uptime()),
+	};
 
-    return health;
+	return health;
 };

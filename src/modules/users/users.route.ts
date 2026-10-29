@@ -4,19 +4,29 @@
  */
 
 import { router } from "@/application/route";
-import { INTERNAL_SERVER_ERROR_SCHEMA, NOT_FOUND_SCHEMA, UNPROCESSABLE_ENTITY_SCHEMA } from "@/lib/constants";
-import { CREATED, INTERNAL_SERVER_ERROR, NOT_FOUND, OK, UNPROCESSABLE_ENTITY } from "@/lib/http-status-codes";
+import {
+	INTERNAL_SERVER_ERROR_SCHEMA,
+	NOT_FOUND_SCHEMA,
+	UNPROCESSABLE_ENTITY_SCHEMA,
+} from "@/lib/constants";
+import {
+	CREATED,
+	INTERNAL_SERVER_ERROR,
+	NOT_FOUND,
+	OK,
+	UNPROCESSABLE_ENTITY,
+} from "@/lib/http-status-codes";
 import { authenticate } from "@/middleware/auth";
 import { hasPermission } from "@/middleware/permission";
 import * as controller from "@/modules/users/users.controller";
 import {
-    createUserSchema,
-    listQuerySchema,
-    updateUserSchema,
-    userCreatedResponseSchema,
-    userDetailResponseSchema,
-    userIdParamSchema,
-    userListResponseSchema,
+	createUserSchema,
+	listQuerySchema,
+	updateUserSchema,
+	userCreatedResponseSchema,
+	userDetailResponseSchema,
+	userIdParamSchema,
+	userListResponseSchema,
 } from "@/modules/users/users.validation";
 
 const route = router();
@@ -29,19 +39,19 @@ const basePath = "/users";
  * @access Authenticated (Permission: users.read)
  */
 route.get("/", controller.index, {
-    name: "users.index",
-    basePath,
-    description: "Get list of users with pagination",
-    authenticated: true,
-    middleware: [authenticate, hasPermission("users.read")],
-    validation: {
-        query: listQuerySchema,
-    },
-    responses: {
-        [OK]: userListResponseSchema,
-        [UNPROCESSABLE_ENTITY]: UNPROCESSABLE_ENTITY_SCHEMA,
-        [INTERNAL_SERVER_ERROR]: INTERNAL_SERVER_ERROR_SCHEMA,
-    },
+	name: "users.index",
+	basePath,
+	description: "Get list of users with pagination",
+	authenticated: true,
+	middleware: [authenticate, hasPermission("users.read")],
+	validation: {
+		query: listQuerySchema,
+	},
+	responses: {
+		[OK]: userListResponseSchema,
+		[UNPROCESSABLE_ENTITY]: UNPROCESSABLE_ENTITY_SCHEMA,
+		[INTERNAL_SERVER_ERROR]: INTERNAL_SERVER_ERROR_SCHEMA,
+	},
 });
 
 /**
@@ -50,20 +60,20 @@ route.get("/", controller.index, {
  * @access Authenticated (Permission: users.read)
  */
 route.get("/:id", controller.show, {
-    name: "users.show",
-    basePath,
-    description: "Get user by ID",
-    authenticated: true,
-    middleware: [authenticate, hasPermission("users.read")],
-    validation: {
-        params: userIdParamSchema,
-    },
-    responses: {
-        [OK]: userDetailResponseSchema,
-        [NOT_FOUND]: NOT_FOUND_SCHEMA,
-        [UNPROCESSABLE_ENTITY]: UNPROCESSABLE_ENTITY_SCHEMA,
-        [INTERNAL_SERVER_ERROR]: INTERNAL_SERVER_ERROR_SCHEMA,
-    },
+	name: "users.show",
+	basePath,
+	description: "Get user by ID",
+	authenticated: true,
+	middleware: [authenticate, hasPermission("users.read")],
+	validation: {
+		params: userIdParamSchema,
+	},
+	responses: {
+		[OK]: userDetailResponseSchema,
+		[NOT_FOUND]: NOT_FOUND_SCHEMA,
+		[UNPROCESSABLE_ENTITY]: UNPROCESSABLE_ENTITY_SCHEMA,
+		[INTERNAL_SERVER_ERROR]: INTERNAL_SERVER_ERROR_SCHEMA,
+	},
 });
 
 /**
@@ -72,19 +82,19 @@ route.get("/:id", controller.show, {
  * @access Authenticated (Permission: users.create)
  */
 route.post("/", controller.store, {
-    name: "users.store",
-    basePath,
-    description: "Create a new user",
-    authenticated: true,
-    middleware: [authenticate, hasPermission("users.create")],
-    validation: {
-        body: createUserSchema,
-    },
-    responses: {
-        [CREATED]: userCreatedResponseSchema,
-        [UNPROCESSABLE_ENTITY]: UNPROCESSABLE_ENTITY_SCHEMA,
-        [INTERNAL_SERVER_ERROR]: INTERNAL_SERVER_ERROR_SCHEMA,
-    },
+	name: "users.store",
+	basePath,
+	description: "Create a new user",
+	authenticated: true,
+	middleware: [authenticate, hasPermission("users.create")],
+	validation: {
+		body: createUserSchema,
+	},
+	responses: {
+		[CREATED]: userCreatedResponseSchema,
+		[UNPROCESSABLE_ENTITY]: UNPROCESSABLE_ENTITY_SCHEMA,
+		[INTERNAL_SERVER_ERROR]: INTERNAL_SERVER_ERROR_SCHEMA,
+	},
 });
 
 /**
@@ -93,21 +103,21 @@ route.post("/", controller.store, {
  * @access Authenticated (Permission: users.update)
  */
 route.put("/:id", controller.update, {
-    name: "users.update",
-    basePath,
-    description: "Update user by ID",
-    authenticated: true,
-    middleware: [authenticate, hasPermission("users.update")],
-    validation: {
-        params: userIdParamSchema,
-        body: updateUserSchema,
-    },
-    responses: {
-        [OK]: userDetailResponseSchema,
-        [NOT_FOUND]: NOT_FOUND_SCHEMA,
-        [UNPROCESSABLE_ENTITY]: UNPROCESSABLE_ENTITY_SCHEMA,
-        [INTERNAL_SERVER_ERROR]: INTERNAL_SERVER_ERROR_SCHEMA,
-    },
+	name: "users.update",
+	basePath,
+	description: "Update user by ID",
+	authenticated: true,
+	middleware: [authenticate, hasPermission("users.update")],
+	validation: {
+		params: userIdParamSchema,
+		body: updateUserSchema,
+	},
+	responses: {
+		[OK]: userDetailResponseSchema,
+		[NOT_FOUND]: NOT_FOUND_SCHEMA,
+		[UNPROCESSABLE_ENTITY]: UNPROCESSABLE_ENTITY_SCHEMA,
+		[INTERNAL_SERVER_ERROR]: INTERNAL_SERVER_ERROR_SCHEMA,
+	},
 });
 
 /**
@@ -116,20 +126,20 @@ route.put("/:id", controller.update, {
  * @access Authenticated (Permission: users.delete)
  */
 route.delete("/:id", controller.destroy, {
-    name: "users.destroy",
-    basePath,
-    description: "Delete user by ID",
-    authenticated: true,
-    middleware: [authenticate, hasPermission("users.delete")],
-    validation: {
-        params: userIdParamSchema,
-    },
-    responses: {
-        [OK]: userDetailResponseSchema,
-        [NOT_FOUND]: NOT_FOUND_SCHEMA,
-        [UNPROCESSABLE_ENTITY]: UNPROCESSABLE_ENTITY_SCHEMA,
-        [INTERNAL_SERVER_ERROR]: INTERNAL_SERVER_ERROR_SCHEMA,
-    },
+	name: "users.destroy",
+	basePath,
+	description: "Delete user by ID",
+	authenticated: true,
+	middleware: [authenticate, hasPermission("users.delete")],
+	validation: {
+		params: userIdParamSchema,
+	},
+	responses: {
+		[OK]: userDetailResponseSchema,
+		[NOT_FOUND]: NOT_FOUND_SCHEMA,
+		[UNPROCESSABLE_ENTITY]: UNPROCESSABLE_ENTITY_SCHEMA,
+		[INTERNAL_SERVER_ERROR]: INTERNAL_SERVER_ERROR_SCHEMA,
+	},
 });
 
 export default route.init();

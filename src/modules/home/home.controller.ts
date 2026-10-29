@@ -13,7 +13,7 @@ import type { Request, Response } from "express";
  * @returns {void} HTML response with landing page
  */
 export const index = (_req: Request, res: Response) => {
-    const html = `
+	const html = `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -707,6 +707,6 @@ export const index = (_req: Request, res: Response) => {
 </html>
 	`.trim();
 
-    res.setHeader("Content-Type", "text/html");
-    res.send(html);
+	res.setHeader("Content-Type", "text/html");
+	res.send(html);
 };
