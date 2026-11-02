@@ -6,6 +6,8 @@ import env from "./env.js";
 
 const connectionString = `${env.DATABASE_URL}`;
 
+logger.log("info", connectionString)
+
 const adapter = new PrismaPg({ connectionString });
 const prisma = new PrismaClient({
 	adapter,
