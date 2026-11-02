@@ -4,11 +4,12 @@
  */
 
 import z from "zod";
-import { router } from "@/application/route";
+
+import { router } from "@/application/route.js";
 import {
 	INTERNAL_SERVER_ERROR_SCHEMA,
 	UNPROCESSABLE_ENTITY_SCHEMA,
-} from "@/lib/constants";
+} from "@/lib/constants.js";
 import {
 	CONFLICT,
 	CREATED,
@@ -16,9 +17,9 @@ import {
 	OK,
 	UNAUTHORIZED,
 	UNPROCESSABLE_ENTITY,
-} from "@/lib/http-status-codes";
-import { authenticate } from "@/middleware/auth";
-import * as controller from "@/modules/auth/auth.controller";
+} from "@/lib/http-status-codes.js";
+import { authenticate } from "@/middleware/auth.js";
+import * as controller from "@/modules/auth/auth.controller.js";
 import {
 	loginResponseSchema,
 	loginSchema,
@@ -27,7 +28,7 @@ import {
 	refreshTokenSchema,
 	registerResponseSchema,
 	registerSchema,
-} from "@/modules/auth/auth.validation";
+} from "@/modules/auth/auth.validation.js";
 
 const route = router();
 

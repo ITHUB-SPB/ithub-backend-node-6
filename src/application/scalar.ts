@@ -1,8 +1,9 @@
 import { apiReference } from "@scalar/express-api-reference";
 import type { Express } from "express";
-import env from "@/application/env";
-import { generateOpenApiPaths } from "@/lib/open-api";
-import { getRegisteredRoutes, registerRoute } from "@/lib/route-utils";
+
+import env from "@/application/env.js";
+import { generateOpenApiPaths } from "@/lib/open-api.js";
+import { getRegisteredRoutes, registerRoute } from "@/lib/route-utils.js";
 import packageJSON from "../../package.json" with { type: "json" };
 
 const title = "Express Starter API Documentation";

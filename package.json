@@ -11,8 +11,8 @@
     },
     "main": "main.ts",
     "scripts": {
-        "dev": "tsx src/main.ts --watch --env-file .env.development",
-        "start": "node dist/main.js --env-file .env.production",
+        "dev": "tsx --env-file=.env.development src/main.ts --watch",
+        "start": "node --env-file=.env.production dist/main.js",
         "build": "tsc && tsc-alias",
         "db:generate": "prisma generate",
         "db:push": "prisma db push",

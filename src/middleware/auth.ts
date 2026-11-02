@@ -4,9 +4,9 @@
  */
 
 import type { NextFunction, Request, Response } from "express";
-import * as httpStatusCodes from "@/lib/http-status-codes";
-import * as httpStatusPhrases from "@/lib/http-status-phrases";
-import { verifyAccessToken } from "@/lib/jwt";
+import * as httpStatusCodes from "@/lib/http-status-codes.js";
+import * as httpStatusPhrases from "@/lib/http-status-phrases.js";
+import { verifyAccessToken } from "@/lib/jwt.js";
 
 /**
  * Middleware to authenticate user using JWT token

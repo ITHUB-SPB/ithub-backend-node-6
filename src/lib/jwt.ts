@@ -3,7 +3,7 @@
  */
 
 import jwt, { type SignOptions } from "jsonwebtoken";
-import env from "@/application/env";
+import env from "@/application/env.js";
 
 export interface JWTPayload {
 	userId: string;

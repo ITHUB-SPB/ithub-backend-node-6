@@ -3,13 +3,13 @@
  * @description Business logic for role management operations
  */
 
-import { prisma } from "@/application/database";
+import { prisma } from "@/application/database.js";
 import type {
 	AssignPermissionsInput,
 	CreateRoleInput,
 	GetAllRolesParams,
 	UpdateRoleInput,
-} from "@/modules/roles/roles.validation";
+} from "@/modules/roles/roles.validation.js";
 
 /**
  * Get all roles with pagination

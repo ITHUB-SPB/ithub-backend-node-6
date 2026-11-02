@@ -1,6 +1,7 @@
 import type { RequestHandler } from "express";
-import { NOT_FOUND } from "@/lib/http-status-codes";
-import { NOT_FOUND as NOT_FOUND_MESSAGE } from "@/lib/http-status-phrases";
+
+import { NOT_FOUND } from "@/lib/http-status-codes.js";
+import { NOT_FOUND as NOT_FOUND_MESSAGE } from "@/lib/http-status-phrases.js";
 
 const notFound: RequestHandler = (req, res) => {
 	return res.status(NOT_FOUND).json({

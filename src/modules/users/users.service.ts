@@ -3,12 +3,12 @@
  * @description Business logic for user management operations
  */
 
-import { prisma } from "@/application/database";
-import type { Prisma } from "@/generated/prisma/client";
+import { prisma } from "@/application/database.js";
+import type { Prisma } from "@/generated/prisma/client.js";
 import type {
 	GetAllUsersParams,
 	PaginationMeta,
-} from "@/modules/users/users.validation";
+} from "@/modules/users/users.validation.js";
 
 /**
  * Get all users with pagination

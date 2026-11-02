@@ -3,12 +3,12 @@
  * @description Business logic for permission management operations
  */
 
-import { prisma } from "@/application/database";
+import { prisma } from "@/application/database.js";
 import type {
 	CreatePermissionInput,
 	GetAllPermissionsParams,
 	UpdatePermissionInput,
-} from "@/modules/permissions/permissions.validation";
+} from "@/modules/permissions/permissions.validation.js";
 
 /**
  * Get all permissions with pagination

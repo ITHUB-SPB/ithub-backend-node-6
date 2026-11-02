@@ -1,6 +1,6 @@
 import type { Express } from "express";
 import type { ZodTypeAny } from "zod";
-import { logger } from "@/application/logging";
+import { logger } from "@/application/logging.js";
 
 export interface RouteInfo {
 	name: string;

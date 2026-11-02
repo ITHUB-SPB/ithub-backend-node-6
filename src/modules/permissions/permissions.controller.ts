@@ -4,13 +4,13 @@
  */
 
 import type { Request, Response } from "express";
-import * as httpStatusCodes from "@/lib/http-status-codes";
-import * as permissionsService from "@/modules/permissions/permissions.service";
+import * as httpStatusCodes from "@/lib/http-status-codes.js";
+import * as permissionsService from "@/modules/permissions/permissions.service.js";
 import type {
 	CreatePermissionInput,
 	GetAllPermissionsParams,
 	UpdatePermissionInput,
-} from "@/modules/permissions/permissions.validation";
+} from "@/modules/permissions/permissions.validation.js";
 
 /**
  * Get all permissions with pagination

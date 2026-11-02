@@ -2,7 +2,7 @@
  * Health Service Module
  */
 
-import type { HealthData } from "@/modules/health/health.validation";
+import type { HealthData } from "@/modules/health/health.validation.js";
 
 /**
  * Health Index

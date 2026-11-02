@@ -1,6 +1,7 @@
 import { createClient } from "redis";
-import env from "@/application/env";
-import { logger } from "@/application/logging";
+
+import env from "@/application/env.js";
+import { logger } from "@/application/logging.js";
 
 export type RedisClient = ReturnType<typeof createClient>;
 

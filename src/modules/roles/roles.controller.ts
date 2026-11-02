@@ -4,14 +4,14 @@
  */
 
 import type { Request, Response } from "express";
-import * as httpStatusCodes from "@/lib/http-status-codes";
-import * as rolesService from "@/modules/roles/roles.service";
+import * as httpStatusCodes from "@/lib/http-status-codes.js";
+import * as rolesService from "@/modules/roles/roles.service.js";
 import type {
 	AssignPermissionsInput,
 	CreateRoleInput,
 	GetAllRolesParams,
 	UpdateRoleInput,
-} from "@/modules/roles/roles.validation";
+} from "@/modules/roles/roles.validation.js";
 
 /**
  * Get all roles with pagination

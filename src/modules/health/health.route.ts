@@ -2,11 +2,11 @@
  * Health Route Module
  */
 
-import { router } from "@/application/route";
-import { INTERNAL_SERVER_ERROR_SCHEMA } from "@/lib/constants";
-import { INTERNAL_SERVER_ERROR, OK } from "@/lib/http-status-codes";
-import * as controller from "@/modules/health/health.controller";
-import { healthResponseSchema } from "@/modules/health/health.validation";
+import { router } from "@/application/route.js";
+import { INTERNAL_SERVER_ERROR_SCHEMA } from "@/lib/constants.js";
+import { INTERNAL_SERVER_ERROR, OK } from "@/lib/http-status-codes.js";
+import * as controller from "@/modules/health/health.controller.js";
+import { healthResponseSchema } from "@/modules/health/health.validation.js";
 
 const route = router();
 

@@ -1,14 +1,14 @@
 import express from "express";
-import { connectDb, disconnectDb } from "@/application/database";
-import env from "@/application/env";
-import { logger } from "@/application/logging";
-import { closeRedis, initRedis } from "@/application/redis";
-import { registerModules } from "@/application/route";
-import { setupScalarDocs } from "@/application/scalar";
-import { httpLogger } from "@/middleware/http-logger";
-import notFound from "@/middleware/not-found";
-import onError from "@/middleware/on-error";
-import serveEmojiFavicon from "@/middleware/serve-emoji-favicon";
+import { connectDb, disconnectDb } from "@/application/database.js";
+import env from "@/application/env.js";
+import { logger } from "@/application/logging.js";
+import { closeRedis, initRedis } from "@/application/redis.js";
+import { registerModules } from "@/application/route.js";
+import { setupScalarDocs } from "@/application/scalar.js";
+import { httpLogger } from "@/middleware/http-logger.js";
+import notFound from "@/middleware/not-found.js";
+import onError from "@/middleware/on-error.js";
+import serveEmojiFavicon from "@/middleware/serve-emoji-favicon.js";
 
 async function startServer() {
 	try {

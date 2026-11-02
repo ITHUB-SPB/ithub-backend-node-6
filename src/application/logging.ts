@@ -3,7 +3,8 @@ import path from "node:path";
 import chalk from "chalk";
 import { createLogger, format, transports } from "winston";
 import DailyRotateFile from "winston-daily-rotate-file";
-import env from "@/application/env";
+
+import env from "@/application/env.js";
 
 const levels = {
 	error: 0,

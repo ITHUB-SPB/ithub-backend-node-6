@@ -8,8 +8,9 @@ import type {
 	Request,
 	Response,
 } from "express";
-import env from "@/application/env";
-import { INTERNAL_SERVER_ERROR, OK } from "@/lib/http-status-codes";
+
+import env from "@/application/env.js";
+import { INTERNAL_SERVER_ERROR, OK } from "@/lib/http-status-codes.js";
 
 /**
  * Error handling middleware for Express.

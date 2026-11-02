@@ -4,7 +4,8 @@
  */
 
 import type { NextFunction, Request, Response } from "express";
-import { prisma } from "@/application/database";
+
+import { prisma } from "@/application/database.js";
 import {
 	FORBIDDEN,
 	INTERNAL_SERVER_ERROR,

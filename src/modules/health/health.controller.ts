@@ -3,9 +3,10 @@
  */
 
 import type { Request, Response } from "express";
-import { INTERNAL_SERVER_ERROR, OK } from "@/lib/http-status-codes";
-import { INTERNAL_SERVER_ERROR as INTERNAL_SERVER_ERROR_PHRASE } from "@/lib/http-status-phrases";
-import * as service from "@/modules/health/health.service";
+
+import { INTERNAL_SERVER_ERROR, OK } from "@/lib/http-status-codes.js";
+import { INTERNAL_SERVER_ERROR as INTERNAL_SERVER_ERROR_PHRASE } from "@/lib/http-status-phrases.js";
+import * as service from "@/modules/health/health.service.js";
 
 /**
  * Health Check Controller

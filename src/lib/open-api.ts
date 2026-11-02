@@ -4,7 +4,7 @@
 
 import type { ZodTypeAny } from "zod";
 import z from "zod";
-import type { RouteMetadata } from "@/lib/route-utils";
+import type { RouteMetadata } from "@/lib/route-utils.js";
 
 interface OpenAPIParameter {
 	name: string;

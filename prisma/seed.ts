@@ -1,5 +1,5 @@
-import { prisma } from "../src/application/database";
-import { generateUsers } from "./factory/user";
+import { prisma } from "../src/application/database.js";
+import { generateUsers } from "./factory/user.js";
 
 async function main() {
     console.log("🌱 Starting database seeding...");

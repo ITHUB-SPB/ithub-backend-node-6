@@ -3,8 +3,9 @@
  */
 
 import type { NextFunction, Request, Response } from "express";
-import { logger } from "@/application/logging";
-import { getRedis } from "@/application/redis";
+
+import { logger } from "@/application/logging.js";
+import { getRedis } from "@/application/redis.js";
 
 interface RateLimitOptions {
 	windowMs?: number; // Time window in milliseconds

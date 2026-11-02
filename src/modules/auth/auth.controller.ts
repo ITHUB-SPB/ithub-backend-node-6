@@ -4,9 +4,10 @@
  */
 
 import type { Request, Response } from "express";
-import * as httpStatusCodes from "@/lib/http-status-codes";
-import * as httpStatusPhrases from "@/lib/http-status-phrases";
-import * as authService from "@/modules/auth/auth.service";
+
+import * as httpStatusCodes from "@/lib/http-status-codes.js";
+import * as httpStatusPhrases from "@/lib/http-status-phrases.js";
+import * as authService from "@/modules/auth/auth.service.js";
 import type {
 	LoginInput,
 	RefreshTokenInput,

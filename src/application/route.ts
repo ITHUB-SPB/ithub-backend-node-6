@@ -14,9 +14,10 @@ import {
 	Router,
 } from "express";
 import type { ZodType } from "zod";
-import { logger } from "@/application/logging";
-import { displayRegisteredRoutes, registerRoute } from "@/lib/route-utils";
-import { rateLimiter } from "@/middleware/rate-limit";
+
+import { logger } from "@/application/logging.js";
+import { displayRegisteredRoutes, registerRoute } from "@/lib/route-utils.js";
+import { rateLimiter } from "@/middleware/rate-limit.js";
 
 type AnyZodSchema = ZodType;
 

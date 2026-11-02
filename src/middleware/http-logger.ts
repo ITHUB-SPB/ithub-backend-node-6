@@ -3,8 +3,9 @@
  */
 
 import type { NextFunction, Request, Response } from "express";
-import { logger, maskSensitive } from "@/application/logging";
-import * as HttpStatusCodes from "@/lib/http-status-codes";
+
+import { logger, maskSensitive } from "@/application/logging.js";
+import * as HttpStatusCodes from "@/lib/http-status-codes.js";
 
 /**
  * HTTP request logging middleware using Winston.

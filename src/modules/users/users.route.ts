@@ -3,22 +3,22 @@
  * @description Route definitions for user management endpoints
  */
 
-import { router } from "@/application/route";
+import { router } from "@/application/route.js";
 import {
 	INTERNAL_SERVER_ERROR_SCHEMA,
 	NOT_FOUND_SCHEMA,
 	UNPROCESSABLE_ENTITY_SCHEMA,
-} from "@/lib/constants";
+} from "@/lib/constants.js";
 import {
 	CREATED,
 	INTERNAL_SERVER_ERROR,
 	NOT_FOUND,
 	OK,
 	UNPROCESSABLE_ENTITY,
-} from "@/lib/http-status-codes";
-import { authenticate } from "@/middleware/auth";
-import { hasPermission } from "@/middleware/permission";
-import * as controller from "@/modules/users/users.controller";
+} from "@/lib/http-status-codes.js";
+import { authenticate } from "@/middleware/auth.js";
+import { hasPermission } from "@/middleware/permission.js";
+import * as controller from "@/modules/users/users.controller.js";
 import {
 	createUserSchema,
 	listQuerySchema,
@@ -27,7 +27,7 @@ import {
 	userDetailResponseSchema,
 	userIdParamSchema,
 	userListResponseSchema,
-} from "@/modules/users/users.validation";
+} from "@/modules/users/users.validation.js";
 
 const route = router();
 

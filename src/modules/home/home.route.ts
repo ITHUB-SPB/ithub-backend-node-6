@@ -3,8 +3,8 @@
  * @description Route definitions for home/landing page
  */
 
-import { router } from "@/application/route";
-import * as controller from "@/modules/home/home.controller";
+import { router } from "@/application/route.js";
+import * as controller from "@/modules/home/home.controller.js";
 
 const route = router();
 

@@ -4,12 +4,13 @@
  */
 
 import type { NextFunction, Request, Response } from "express";
-import { prisma } from "@/application/database";
+
+import { prisma } from "@/application/database.js";
 import {
 	FORBIDDEN,
 	INTERNAL_SERVER_ERROR,
 	UNAUTHORIZED,
-} from "@/lib/http-status-codes";
+} from "@/lib/http-status-codes.js";
 
 /**
  * Middleware to check if user has required permission(s)

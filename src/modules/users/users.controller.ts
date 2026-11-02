@@ -4,24 +4,25 @@
  */
 
 import type { Request, Response } from "express";
-import { cache } from "@/application/redis";
+
+import { cache } from "@/application/redis.js";
 import {
 	CONFLICT,
 	CREATED,
 	INTERNAL_SERVER_ERROR,
 	NOT_FOUND,
-} from "@/lib/http-status-codes";
+} from "@/lib/http-status-codes.js";
 import {
 	INTERNAL_SERVER_ERROR as INTERNAL_SERVER_ERROR_PHRASE,
 	NOT_FOUND as NOT_FOUND_PHRASE,
-} from "@/lib/http-status-phrases";
-import * as userService from "@/modules/users/users.service";
+} from "@/lib/http-status-phrases.js";
+import * as userService from "@/modules/users/users.service.js";
 import type {
 	CreateUserBody,
 	ListQuery,
 	UpdateUserBody,
 	UserIdParam,
-} from "@/modules/users/users.validation";
+} from "@/modules/users/users.validation.js";
 
 /**
  * Get all users with pagination
