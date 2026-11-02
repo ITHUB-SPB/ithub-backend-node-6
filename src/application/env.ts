@@ -1,7 +1,13 @@
 import { config } from "dotenv";
 import z from "zod";
 
-config();
+console.log(process.env)
+
+config({
+	path: process.env.NODE_ENV === "development"
+		? "./.env.development"
+		: "./.env.production"
+});
 
 const BaseEnvSchema = z.object({
 	NODE_ENV: z.string().default("development"),
@@ -22,9 +28,11 @@ const BaseEnvSchema = z.object({
 	POSTGRES_USER: z.string(),
 	POSTGRES_PASSWORD: z.string(),
 	POSTGRES_DB: z.string(),
+	POSTGRES_HOST: z.string(),
 	POSTGRES_PORT: z.coerce.number(),
 
-	REDIS_URL: z.string().default("redis://localhost:6379"),
+	REDIS_HOST: z.string(),
+	REDIS_PORT: z.coerce.number(),
 
 	JWT_SECRET: z.string(),
 	JWT_EXPIRES_IN: z.string().default("7d"),
@@ -33,7 +41,8 @@ const BaseEnvSchema = z.object({
 });
 
 const EnvSchema = BaseEnvSchema.extend({
-	DATABASE_URL: z.string()
+	DATABASE_URL: z.string(),
+	REDIS_URL: z.string()
 })
 
 type baseEnv = z.infer<typeof BaseEnvSchema>;
@@ -50,7 +59,8 @@ if (error) {
 
 const env = {
 	...baseEnv,
-	DATABASE_URL: `postgresql://${baseEnv.POSTGRES_USER}:${baseEnv.POSTGRES_PASSWORD}@localhost:${baseEnv.POSTGRES_PORT}/${baseEnv.POSTGRES_DB}`
+	DATABASE_URL: `postgresql://${baseEnv.POSTGRES_USER}:${baseEnv.POSTGRES_PASSWORD}@${baseEnv.POSTGRES_HOST}:${baseEnv.POSTGRES_PORT}/${baseEnv.POSTGRES_DB}`,
+	REDIS_URL: `redis://${baseEnv.REDIS_HOST}:${baseEnv.REDIS_PORT}`,
 }
 
 export default env as env;

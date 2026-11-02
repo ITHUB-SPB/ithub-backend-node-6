@@ -32,7 +32,7 @@ export const listQuerySchema = z.object({
  * @description UUID validation for user ID in route parameters
  */
 export const userIdParamSchema = z.object({
-	id: z.string().uuid().meta({
+	id: z.string().meta({
 		description: "Unique identifier of the user",
 		example: "550e8400-e29b-41d4-a716-446655440000",
 	}),
