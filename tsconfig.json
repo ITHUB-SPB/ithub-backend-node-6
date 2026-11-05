@@ -4,10 +4,11 @@
     ],
     "exclude": [
         "node_modules",
+        "tests",
         "dist"
     ],
     "compilerOptions": {
-        "rootDir": "./src",
+        "rootDir": ".",
         "outDir": "./dist",
         "target": "es2023",
         "lib": [

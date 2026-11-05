@@ -1,2 +1,8 @@
 import request from 'supertest'
-import start
+
+import { setupServer } from '../src/bootstrap.js'
+
+const app = await setupServer()
+
+request(app)
+    .get('/users')
