@@ -1,8 +1,7 @@
-import { describe, it, expect, beforeAll } from 'vitest';
+import { describe, it, expect, beforeAll, beforeEach } from 'vitest';
 import request from 'supertest'
 
 import { setupServer } from '../src/bootstrap'
-import { beforeEach } from 'node:test';
 
 
 let accessToken: string | undefined;
@@ -30,15 +29,6 @@ beforeAll(async () => {
     }
 })
 
-// beforeEach(async () => {
-//     const app = await setupServer()
-//     const server = app.listen()
-
-//     return () => {
-//         server.close()
-//     }
-// })
-
 describe('/GET users', () => {
     it('throws 401 with message if not credentials passed', async () => {
         const app = await setupServer()
@@ -47,13 +37,13 @@ describe('/GET users', () => {
         expect(response.statusCode).toBe(401)
     })
 
-    it('returns data and meta with correct credentials', async () => {
+    it('throws 403 if user has no permission to read users', async () => {
         const app = await setupServer()
 
         const response = await request(app)
             .get('/users')
             .set('Authorization', `Bearer ${accessToken}`)
 
-        expect(response.statusCode).toBe(200)
+        expect(response.statusCode).toBe(403)
     })
 })

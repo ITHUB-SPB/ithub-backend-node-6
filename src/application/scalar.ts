@@ -13,15 +13,6 @@ const title = "Express Starter API Documentation";
  * @param {Express} app Express application instance
  */
 export function setupScalarDocs(app: Express): void {
-	// Register /docs route to registry
-	registerRoute({
-		name: "docs",
-		method: "GET",
-		path: "/docs",
-		description: "API Documentation (Scalar)",
-		authenticated: false,
-	});
-
 	// Get all registered routes
 	const routes = getRegisteredRoutes();
 

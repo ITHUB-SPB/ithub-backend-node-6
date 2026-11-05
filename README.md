@@ -1,5 +1,35 @@
 # ⚡ КТ#6. Тестирование, контейнеризация, развертывание
 
+*Максимальный балл: 10*
+
+## Критерии оценивания
+
+### Контейнеризация (по одному баллу за каждый пункт)
+
+1. Настроить `multi-stage` сборку в `Dockerfile` (используя гайды с оф.сайта, информацию с платформы, примеры)
+2. В качестве последнего этапа `multi-stage` использовать `hardened`-образ, например из числа этих [этих](https://hub.docker.com/hardened-images/catalog/dhi/node/images?page=1). Для использования таких образов потребуется регистрация на платформе докера и вход через терминал.
+3. Настроить `environment` для сервиса `postgres` в `docker-compose.yaml`, чтобы он читался через загрузку файла `.env` (того же самого, что используется для запуска нашего бэкенда)
+4. Настроить `environment` для сервиса `postgres` через `secrets` (не забудьте добавить секреты в `.gitignore`)
+
+### Автотесты API (по одному баллу за каждый пункт)
+
+Реализовать предзаданные проверки для следующих блоков в файле `tests/auth.test.ts`
+
+1. `/POST /auth/register`
+2. `/POST /auth/login`
+3. `/POST /auth/refresh`
+4. `/POST /auth/profile`
+
+### Модульные автотесты (до двух баллов)
+
+- протестировать через `vitest` функцию `generateTokenPair`: проверить, что вызываются функций `generateAccessToken` и `generateRefreshToken`, а итоговый результат соответствует указанной схеме (типу). Для проверки факта вызова функций (и правильности их входных данных) используйте `vi.spyOn` либо моки.
+
+### Бонусный балл
+
+- настроить логгер таким образом, чтобы при запуске тестов не выводилась сопроводительные логи бэкенда.
+
+---
+
 <div align="center">
 
 **A production-ready Express.js REST API starter template with TypeScript, JWT authentication, role-based access control (RBAC), Prisma ORM, Redis caching, and comprehensive OpenAPI documentation.**
