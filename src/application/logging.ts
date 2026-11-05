@@ -36,7 +36,7 @@ const errorTransport = new DailyRotateFile({
 const appTransport = new DailyRotateFile({
 	level:
 		(env.LOG_LEVEL as keyof typeof levels) ||
-		(env.NODE_ENV === "production" ? "info" : "debug"),
+		(env.VITEST ? "error" : env.NODE_ENV === "production" ? "info" : "debug"),
 	dirname: logDir,
 	filename: "app-%DATE%.log",
 	datePattern: "YYYY-MM-DD",
@@ -76,6 +76,7 @@ const logger = createLogger({
 	level:
 		(env.LOG_LEVEL as keyof typeof levels) ||
 		(env.NODE_ENV === "production" ? "info" : "debug"),
+	silent: Boolean(env.VITEST),
 	format: format.combine(timestamp, json),
 	transports: [errorTransport, appTransport, consoleTransport],
 });

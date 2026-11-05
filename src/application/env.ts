@@ -2,13 +2,15 @@ import { config } from "dotenv";
 import z from "zod";
 
 config({
-	path: process.env.NODE_ENV === "development"
+	path: process.env.NODE_ENV === "development" || process.env.VITEST
 		? "./.env.development"
 		: "./.env.production"
 });
 
 const BaseEnvSchema = z.object({
 	NODE_ENV: z.string().default("development"),
+	VITEST: z.string().optional(),
+
 	PORT: z.coerce.number().default(8000),
 	LOG_LEVEL: z
 		.enum(["error", "warn", "info", "http", "verbose", "debug", "silly"])

@@ -14,6 +14,7 @@
         "dev": "tsx --env-file=.env.development src/main.ts --watch",
         "start": "node --env-file=.env.production dist/main.js",
         "build": "tsc && tsc-alias",
+        "test": "vitest",
         "db:generate": "dotenv run -f .env.development -- prisma generate",
         "db:generate:production": "dotenv run -f .env.production -- prisma generate",
         "db:push": "prisma db push",
