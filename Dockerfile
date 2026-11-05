@@ -17,5 +17,6 @@ WORKDIR /app
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/dist/ ./dist
 COPY --from=build /app/src/generated ./src/generated
+COPY --from=build /app/.env.development ./.env.production
 
 CMD ["node", "/app/dist/src/main.js"]
