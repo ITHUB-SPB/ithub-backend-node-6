@@ -3,7 +3,7 @@ import { logger } from "@/application/logging.js";
 import { closeRedis } from "@/application/redis.js";
 import env from "@/application/env.js";
 
-import { setupServer } from "./bootstrap";
+import { setupServer } from "./bootstrap.js";
 
 const app = await setupServer()
 
