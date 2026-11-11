@@ -43,6 +43,8 @@ export const generateRefreshToken = (payload: JWTPayload): string => {
 	return jwt.sign(payload, env.JWT_REFRESH_SECRET, options);
 };
 
+export const jwtService = { generateAccessToken, generateRefreshToken };
+
 /**
  * Generate both access and refresh tokens
  *
@@ -50,8 +52,8 @@ export const generateRefreshToken = (payload: JWTPayload): string => {
  * @returns {TokenPair} Token pair object
  */
 export const generateTokenPair = (payload: JWTPayload): TokenPair => {
-	const access_token = generateAccessToken(payload);
-	const refresh_token = generateRefreshToken(payload);
+	const access_token = jwtService.generateAccessToken(payload);
+	const refresh_token = jwtService.generateRefreshToken(payload);
 
 	return {
 		access_token,
@@ -60,6 +62,7 @@ export const generateTokenPair = (payload: JWTPayload): TokenPair => {
 		expires_in: env.JWT_EXPIRES_IN,
 	};
 };
+
 
 /**
  * Verify JWT access token
