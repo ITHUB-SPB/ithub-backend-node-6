@@ -48,6 +48,9 @@ export const INTERNAL_SERVER_ERROR_SCHEMA = z.object({
 });
 
 export const UNPROCESSABLE_ENTITY_SCHEMA = z.object({
+	success: z
+		.literal(false)
+		.meta({ description: "Response status", example: false }),
 	status: z
 		.literal("error")
 		.meta({ description: "Response status", example: "error" }),

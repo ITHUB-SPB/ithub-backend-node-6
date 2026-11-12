@@ -71,8 +71,6 @@ const consoleTransport = new transports.Console({
 	),
 });
 
-console.log(env.VITEST)
-
 const logger = createLogger({
 	levels,
 	level:

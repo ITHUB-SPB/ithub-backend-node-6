@@ -56,6 +56,8 @@ coverage/
 .docker/db/data/
 .docker/redis/data/
 .docker/postgres/
+.docker/secrets/*
+!.docker/secrets/.gitkeep
 docker-compose.override.yml
 
 # Temporary Files

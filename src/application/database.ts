@@ -6,29 +6,29 @@ import env from "./env.js";
 
 const connectionString = `${env.DATABASE_URL}`;
 
-logger.log("info", connectionString)
-
 const adapter = new PrismaPg({ connectionString });
 const prisma = new PrismaClient({
 	adapter,
-	log: [
-		{
-			emit: "stdout",
-			level: "query",
-		},
-		{
-			emit: "stdout",
-			level: "error",
-		},
-		{
-			emit: "stdout",
-			level: "info",
-		},
-		{
-			emit: "stdout",
-			level: "warn",
-		},
-	],
+	log: env.VITEST
+		? []
+		: [
+				{
+					emit: "stdout",
+					level: "query",
+				},
+				{
+					emit: "stdout",
+					level: "error",
+				},
+				{
+					emit: "stdout",
+					level: "info",
+				},
+				{
+					emit: "stdout",
+					level: "warn",
+				},
+			],
 });
 
 prisma.$on("error", (e) => {

@@ -16,6 +16,28 @@ import type {
 	RegisterInput,
 } from "@/modules/auth/auth.validation";
 
+export interface AuthUser {
+	id: string;
+	name: string;
+	email: string;
+	email_verified_at: Date | null;
+	created_at: Date;
+	updated_at: Date;
+}
+
+export interface AuthTokenPair extends TokenPair {
+	user: AuthUser;
+}
+
+const toAuthUser = (user: AuthUser): AuthUser => ({
+	id: user.id,
+	name: user.name,
+	email: user.email,
+	email_verified_at: user.email_verified_at,
+	created_at: user.created_at,
+	updated_at: user.updated_at,
+});
+
 /**
  * Register a new user
  * @description Creates a new user account with hashed password and generates JWT tokens
@@ -23,7 +45,7 @@ import type {
  * @returns {Promise<TokenPair>} Access and refresh tokens for the new user
  * @throws {Error} If user with email already exists or database operation fails
  */
-export const register = async (data: RegisterInput): Promise<TokenPair> => {
+export const register = async (data: RegisterInput): Promise<AuthTokenPair> => {
 	// Check if user already exists
 	const existingUser = await prisma.user.findUnique({
 		where: { email: data.email },
@@ -43,10 +65,10 @@ export const register = async (data: RegisterInput): Promise<TokenPair> => {
 		},
 	});
 
-	return generateTokenPair({
-		userId: user.id,
-		email: user.email,
-	});
+	return {
+		...generateTokenPair({ userId: user.id, email: user.email }),
+		user: toAuthUser(user),
+	};
 };
 
 /**
@@ -56,7 +78,7 @@ export const register = async (data: RegisterInput): Promise<TokenPair> => {
  * @returns {Promise<TokenPair>} Access and refresh tokens for authenticated user
  * @throws {Error} If credentials are invalid or database operation fails
  */
-export const login = async (data: LoginInput): Promise<TokenPair> => {
+export const login = async (data: LoginInput): Promise<AuthTokenPair> => {
 	const user = await prisma.user.findUnique({
 		where: { email: data.email },
 	});
@@ -71,10 +93,10 @@ export const login = async (data: LoginInput): Promise<TokenPair> => {
 		throw new Error("Invalid credentials");
 	}
 
-	return generateTokenPair({
-		userId: user.id,
-		email: user.email,
-	});
+	return {
+		...generateTokenPair({ userId: user.id, email: user.email }),
+		user: toAuthUser(user),
+	};
 };
 
 /**

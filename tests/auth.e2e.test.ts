@@ -1,97 +1,166 @@
-import { describe, it, expect, beforeAll, beforeEach } from 'vitest';
-import request from 'supertest'
+import { randomUUID } from "node:crypto";
 
-import { setupServer } from '../src/bootstrap'
+import { beforeAll, describe, expect, it } from "vitest";
+import request from "supertest";
 
+import { setupServer } from "../src/bootstrap";
+import {
+	loginResponseSchema,
+	profileResponseSchema,
+	refreshTokenResponseSchema,
+	registerResponseSchema,
+} from "../src/modules/auth/auth.validation";
 
-let accessToken: string | undefined;
+const credentials = {
+	name: "Supertest User",
+	email: `supertest-${randomUUID()}@example.com`,
+	password: "Supertest1",
+};
 
-const populateAccessToken = async () => {
-    const app = await setupServer()
-    const credentials = { email: 'Supertest1@example.com', password: 'Supertest1' }
+let app!: NonNullable<Awaited<ReturnType<typeof setupServer>>>;
+let accessToken = "";
+let refreshToken = "";
 
-    try {
-        await request(app)
-            .post('/auth/login')
-            .send(credentials)
-            .set('Accept', 'application/json')
-            .then(response => {
-                accessToken = response.body.data.access_token
-            })
-    } catch (error: unknown) {
-        await request(app)
-            .post('/auth/register')
-            .send({ ...credentials, name: 'Supertest1' })
-            .set('Accept', 'application/json')
-            .then(response => {
-                accessToken = response.body.data.access_token
-            })
-    }
-}
+const expectValidationError = (response: request.Response) => {
+	expect(response.status).toBe(422);
+	expect(response.body.success).toBe(false);
+	expect(response.body.status).toBe("error");
+	expect(response.body.errors).toEqual(expect.any(Array));
+};
 
-describe('/POST /auth/register', () => {
-    it('Успешная регистрация нового аккаунта', async () => {
-        // после получения ответа вызвать валидацию через зод и убедиться в отсутствии ошибок
-    })
+beforeAll(async () => {
+	app = await setupServer();
+	const response = await request(app)
+		.post("/auth/register")
+		.send(credentials)
+		.set("Accept", "application/json");
 
-    it('Выдает 409 при попытке использования занятой почты', async () => {
-        // проверить статус-код и success: false в ответе
-    })
+	expect(response.status).toBe(201);
+	const parsed = registerResponseSchema.parse(response.body);
+	accessToken = parsed.data.access_token;
+	refreshToken = parsed.data.refresh_token;
+});
 
-    it('Выдает 422 при ошибке валидации (например, по паролю) ', async () => {
-        // проверить статус-код, success: false и наличие массива errors с соответствующей ошибкой в ответе
-    })
-})
+describe("POST /auth/register", () => {
+	it("registers a new account and returns a valid response", async () => {
+		const response = await request(app)
+			.post("/auth/register")
+			.send({
+				...credentials,
+				email: `new-${randomUUID()}@example.com`,
+			})
+			.set("Accept", "application/json");
 
-describe('/POST /auth/login', () => {
-    it('Успешный логин', async () => {
-        // после получения ответа вызвать валидацию через зод и убедиться в отсутствии ошибок
-    })
+		expect(response.status).toBe(201);
+		registerResponseSchema.parse(response.body);
+		expect(response.body.success).toBe(true);
+	});
 
-    it('Выдает 401 при входе с данными несуществующего пользователя', async () => {
-        // проверить статус-код и success: false в ответе
-    })
+	it("returns 409 for an already registered email", async () => {
+		const response = await request(app)
+			.post("/auth/register")
+			.send(credentials);
 
-    it('Выдает 422 при ошибке валидации (например, по паролю) ', async () => {
-        // проверить статус-код, success: false и наличие массива errors с соответствующей ошибкой в ответе
-    })
-})
+		expect(response.status).toBe(409);
+		expect(response.body.success).toBe(false);
+		expect(response.body.data).toBeNull();
+	});
 
-describe('/POST /auth/refresh', () => {
-    it('Успешное обновление', async () => {
-        // после получения ответа вызвать валидацию через зод и убедиться в отсутствии ошибок
-    })
+	it("returns 422 for invalid registration data", async () => {
+		const response = await request(app)
+			.post("/auth/register")
+			.send({ ...credentials, password: "weak" });
 
-    it('Выдает 401 при обращении с несуществующим (либо устаревшим) рефреш-токеном', async () => {
-        // проверить статус-код и success: false в ответе
-    })
+		expectValidationError(response);
+		expect(response.body.errors).toEqual(
+			expect.arrayContaining([expect.objectContaining({ path: "password" })]),
+		);
+	});
+});
 
-    it('Выдает 422 при ошибке валидации (например, при нулевой длине рефреш-токена) ', async () => {
-        // проверить статус-код, success: false и наличие массива errors с соответствующей ошибкой в ответе
-    })
-})
+describe("POST /auth/login", () => {
+	it("logs in with valid credentials", async () => {
+		const response = await request(app).post("/auth/login").send(credentials);
 
-describe('/POST /auth/profile', () => {
-    beforeAll(populateAccessToken)
+		expect(response.status).toBe(200);
+		loginResponseSchema.parse(response.body);
+		expect(response.body.data.access_token).toEqual(expect.any(String));
+	});
 
-    it('Выдает данные о пользователе при передаче корректного Authorization-хедера', async () => {
-        // после получения ответа вызвать валидацию через зод и убедиться в отсутствии ошибок
-    })
+	it("returns 401 for an unknown user", async () => {
+		const response = await request(app)
+			.post("/auth/login")
+			.send({
+				email: `missing-${randomUUID()}@example.com`,
+				password: credentials.password,
+			});
 
-    it('Выдает 401 при отсутствии Authorization-хедера', async () => {
-        // проверить статус-код и success: false в ответе
+		expect(response.status).toBe(401);
+		expect(response.body.success).toBe(false);
+	});
 
-        const app = await setupServer()
+	it("returns 422 for invalid login data", async () => {
+		const response = await request(app)
+			.post("/auth/login")
+			.send({ email: credentials.email, password: "" });
 
-        const response = await request(app)
-            .get('/users')
-            .set('Authorization', `Bearer ${accessToken}`)
+		expectValidationError(response);
+	});
+});
 
-        expect(response.statusCode).toBe(403)
-    })
+describe("POST /auth/refresh", () => {
+	it("refreshes the access token", async () => {
+		const response = await request(app)
+			.post("/auth/refresh")
+			.send({ refresh_token: refreshToken });
 
-    it('Выдает 401 при передаче несуществующего (либо некорректного) аксесс-токена', async () => {
-        // проверить статус-код и success: false в ответе
-    })
-})
+		expect(response.status).toBe(200);
+		refreshTokenResponseSchema.parse(response.body);
+		expect(response.body.data.access_token).toEqual(expect.any(String));
+	});
 
+	it("returns 401 for an invalid refresh token", async () => {
+		const response = await request(app)
+			.post("/auth/refresh")
+			.send({ refresh_token: "invalid-refresh-token" });
+
+		expect(response.status).toBe(401);
+		expect(response.body.success).toBe(false);
+	});
+
+	it("returns 422 when refresh token is empty", async () => {
+		const response = await request(app)
+			.post("/auth/refresh")
+			.send({ refresh_token: "" });
+
+		expectValidationError(response);
+	});
+});
+
+describe("GET /auth/profile", () => {
+	it("returns the authenticated user's profile", async () => {
+		const response = await request(app)
+			.get("/auth/profile")
+			.set("Authorization", `Bearer ${accessToken}`);
+
+		expect(response.status).toBe(200);
+		profileResponseSchema.parse(response.body);
+		expect(response.body.data.email).toBe(credentials.email);
+	});
+
+	it("returns 401 when Authorization is missing", async () => {
+		const response = await request(app).get("/auth/profile");
+
+		expect(response.status).toBe(401);
+		expect(response.body.success).toBe(false);
+	});
+
+	it("returns 401 for an invalid access token", async () => {
+		const response = await request(app)
+			.get("/auth/profile")
+			.set("Authorization", "Bearer invalid-access-token");
+
+		expect(response.status).toBe(401);
+		expect(response.body.success).toBe(false);
+	});
+});

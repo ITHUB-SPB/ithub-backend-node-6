@@ -8,6 +8,9 @@ yarn.lock
 pnpm-lock.yaml
 
 # Environment Variables
+.env
+.env.development
+.env.production
 .env.local
 .env.development.local
 .env.test.local
@@ -57,6 +60,7 @@ coverage/
 .docker/db/data/
 .docker/redis/data/
 .docker/postgres/
+.docker/secrets/
 *docker-compose*.yml
 
 # Temporary Files

@@ -83,8 +83,14 @@ function ensureLeadingSlash(path: string): string {
  *
  * @returns {void}
  */
-async function loadAndMount(app: Express, file: string, fallback: string): Promise<void> {
-	const { default: router, path: customPath } = await import(pathToFileURL(file).href) as {
+async function loadAndMount(
+	app: Express,
+	file: string,
+	fallback: string,
+): Promise<void> {
+	const { default: router, path: customPath } = (await import(
+		pathToFileURL(file).href
+	)) as {
 		default: Router;
 		path?: string;
 	};
@@ -218,6 +224,7 @@ function zodValidator(validation: ZodValidation): RequestHandler {
 
 		if (issues.length > 0) {
 			return res.status(422).json({
+				success: false,
 				status: "error",
 				message: "Validation error",
 				errors: issues,
@@ -337,12 +344,17 @@ function router() {
  *
  * @param {Express} app
  */
-async function registerModules(app: Express, showNamedRoute?: boolean): Promise<void> {
+async function registerModules(
+	app: Express,
+	showNamedRoute?: boolean,
+): Promise<void> {
 	logger.info({ tag: "ROUTE", message: "Registering routes..." });
 
-	const modulesRoot = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "modules");
-	console.log(modulesRoot)
-
+	const modulesRoot = path.join(
+		path.dirname(fileURLToPath(import.meta.url)),
+		"..",
+		"modules",
+	);
 	const walkAndMount = async (dir: string, prefix: string) => {
 		for (const entry of fs.readdirSync(dir)) {
 			const fullPath = path.join(dir, entry);
@@ -360,7 +372,6 @@ async function registerModules(app: Express, showNamedRoute?: boolean): Promise<
 
 				if (routeFile) {
 					const mountPath = prefix ? `${prefix}/${entry}` : entry;
-					console.log(`Mounting route: ${mountPath.toUpperCase()}`);
 					await loadAndMount(app, routeFile, mountPath);
 				}
 
