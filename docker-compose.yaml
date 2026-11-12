@@ -4,14 +4,17 @@ services:
   postgres:
     image: postgres:18.6
     container_name: auth-postgres
+    secrets:
+      - db_user
+      - db_password
     networks:
       - auth
     ports:
       - 5433:5432
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: auth
+      POSTGRES_USER: /run/secrets/db_user
+      POSTGRES_PASSWORD: /run/secrets/db_password
+      POSTGRES_DB: ${POSTGRES_DB}
       TZ: "Europe/Moscow"
       PGTZ: "Europe/Moscow"
       LC_LANG: ru_RU.UTF-8
@@ -36,7 +39,8 @@ services:
       - auth
     ports:
       - 8000:8000
-    # command: npx dotenv run -f .env.production -- prisma migrate dev && node /app/dist/main.js
+    env_file:
+      - .env
     command: node /app/dist/main.js
 
 volumes:
@@ -45,3 +49,9 @@ volumes:
 
 networks:
   auth:
+
+secrets:
+  db_user:
+    environment: "POSTGRES_USER"
+  db_password:
+    environment: "POSTGRES_PASSWORD"
