@@ -52,6 +52,6 @@ networks:
 
 secrets:
   db_user:
-    environment: "POSTGRES_USER"
+    file: db_user
   db_password:
-    environment: "POSTGRES_PASSWORD"
+    file: db_password

@@ -50,8 +50,8 @@ export const generateRefreshToken = (payload: JWTPayload): string => {
  * @returns {TokenPair} Token pair object
  */
 export const generateTokenPair = (payload: JWTPayload): TokenPair => {
-	const access_token = generateAccessToken(payload);
-	const refresh_token = generateRefreshToken(payload);
+	const access_token = jwtService.generateAccessToken(payload);
+	const refresh_token = jwtService.generateRefreshToken(payload);
 
 	return {
 		access_token,
@@ -90,3 +90,5 @@ export const verifyRefreshToken = (token: string): JWTPayload | null => {
 		return null;
 	}
 };
+
+export const jwtService = { generateAccessToken, generateRefreshToken };
